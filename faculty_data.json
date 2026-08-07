@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Prof. Ajay Batish",
+    "role": "Pro Vice-Chancellor",
+    "email": "abatish@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/142/1507630396142.jpg"
+  },
+  {
+    "name": "R. K. Duvedi (Dr.)",
+    "role": "Associate Dean ELC",
+    "email": "rduvedi@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/467/1536292636467.jpg"
+  },
+  {
+    "name": "Dr. Sharad Saxena",
+    "role": "Coordinator",
+    "email": "sharad.saxena@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/315/1505900307315.jpg"
+  },
+  {
+    "name": "Dr. V. P. Singh",
+    "role": "Associate Professor",
+    "email": "vpsingh@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/153/1501236861153.jpg"
+  },
+  {
+    "name": "Dr. Anil Arora",
+    "role": "Assistant Professor",
+    "email": "anil.arora@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/270/1508226424270.jpg"
+  },
+  {
+    "name": "Dr. Bikramjit Sharma",
+    "role": "Assistant Professor",
+    "email": "bikramjit@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/225/1507903588225.jpg"
+  },
+  {
+    "name": "Dr. Himanshu Chawla",
+    "role": "Assistant Professor",
+    "email": "himashu.chawla@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/489/1550205814489.jpg"
+  },
+  {
+    "name": "Dr. Nirbhow Jap Singh",
+    "role": "Assistant Professor",
+    "email": "nirbhow@gmail.com",
+    "image": "https://www.thapar.edu/webroot/files/faculty/295/1507874007295.png"
+  },
+  {
+    "name": "Dr. Raman Kumar Goyal",
+    "role": "Assistant Professor",
+    "email": "ramankumar.goyal@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/406/1533900222406.jpg"
+  },
+  {
+    "name": "Dr. Vikas Handa",
+    "role": "Assistant Professor",
+    "email": "vikas.handa@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/119/1500985895119.png"
+  },
+  {
+    "name": "Dr. Vivek Sethi",
+    "role": "Assistant Professor",
+    "email": "vivek.sethi@thapar.edu",
+    "image": "https://www.thapar.edu/webroot/files/faculty/553/1730180215553.jpg"
+  }
+]
