@@ -5,6 +5,7 @@ import {
   useTransform,
   useMotionTemplate,
   useMotionValueEvent,
+  useSpring,
 } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, Map, Cpu, ArrowRight } from 'lucide-react';
@@ -26,24 +27,34 @@ const HUB = [
   {
     id: 'elc',
     title: 'E L C',
-    caption: 'EXPERIENTIAL LEARNING CENTRE',
+    caption: 'Experiential Learning Centre',
+    meta: 'Home of the initiative',
+    status: 'Open',
     cta: 'Discover',
+    accent: '#3b82f6',
     Mark: ElcMark,
   },
   {
     id: 'campus',
     title: 'CAMPUS VERSE',
-    caption: 'EXPLORE. EXPERIENCE. DISCOVER.',
+    caption: 'Explore. Experience. Discover.',
+    meta: 'Walk the digital twin',
+    status: 'Live',
     cta: 'Enter',
+    accent: '#38bdf8',
+    featured: true,
     Mark: CampusVerseMark,
   },
   {
     id: 'vr',
     title: 'VR GAMES',
-    caption: 'IMMERSIVE ARCADE',
+    caption: 'Immersive Arcade',
+    meta: 'Built for headsets',
+    status: 'In build',
     // No VR route exists yet, so this deliberately goes nowhere rather than
     // dropping people somewhere unrelated.
     cta: 'Coming soon',
+    accent: '#67e8f9',
     Mark: VrGamesMark,
   },
 ];
@@ -59,60 +70,111 @@ const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
   const blurPx = useTransform(smoothScroll, [start, start + 0.24], [14, 0]);
   const filter = useMotionTemplate`blur(${blurPx}px)`;
 
+  // Cursor-tracked highlight, so the light source belongs to the room rather
+  // than to the element.
+  const px = useSpring(0, { stiffness: 260, damping: 32 });
+  const py = useSpring(0, { stiffness: 260, damping: 32 });
+  const spotlight = useMotionTemplate`radial-gradient(340px circle at ${px}px ${py}px, color-mix(in srgb, var(--accent) 22%, transparent), transparent 72%)`;
+
+  const track = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    px.set(e.clientX - r.left);
+    py.set(e.clientY - r.top);
+  };
+
   const { Mark } = card;
 
   return (
     <motion.button
       type="button"
       onClick={onSelect}
-      style={{ opacity, y, scale, filter, pointerEvents: interactive ? 'auto' : 'none' }}
-      className="group relative flex h-[112px] w-full flex-row items-center gap-5 overflow-hidden
-                 rounded-[1.75rem] border border-white/10 p-6 text-left backdrop-blur-2xl
-                 bg-gradient-to-b from-white/[0.07] via-white/[0.03] to-white/[0.01]
-                 shadow-[0_30px_70px_-25px_rgba(0,0,0,0.85),inset_0_1px_0_0_rgba(255,255,255,0.12)]
-                 transition-[transform,border-color,box-shadow] duration-700 ease-out
-                 hover:-translate-y-2 hover:border-sky-400/45
-                 hover:shadow-[0_0_70px_-10px_rgba(56,189,248,0.55),inset_0_1px_0_0_rgba(255,255,255,0.2)]
-                 sm:h-[350px] sm:flex-col sm:justify-center sm:gap-0 sm:rounded-[2rem] sm:p-8 sm:text-center"
+      onMouseMove={track}
+      style={{ opacity, y, scale, filter, '--accent': card.accent, pointerEvents: interactive ? 'auto' : 'none' }}
+      className={`group relative flex h-[104px] w-full flex-row items-center gap-5 overflow-hidden
+                  rounded-[1.5rem] border p-5 text-left backdrop-blur-2xl
+                  bg-gradient-to-b from-white/[0.07] via-white/[0.03] to-white/[0.01]
+                  shadow-[0_30px_70px_-25px_rgba(0,0,0,0.85),inset_0_1px_0_0_rgba(255,255,255,0.10)]
+                  transition-[transform,border-color,box-shadow] duration-700 ease-out
+                  hover:-translate-y-2
+                  hover:shadow-[0_0_70px_-12px_var(--accent),inset_0_1px_0_0_rgba(255,255,255,0.18)]
+                  sm:h-[380px] sm:flex-col sm:items-stretch sm:gap-0 sm:rounded-[1.75rem] sm:p-7
+                  ${card.featured ? 'border-sky-400/25' : 'border-white/10'} hover:border-[var(--accent)]/50`}
     >
-      {/* Hairline along the top edge — the highlight that sells it as glass */}
-      <span className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-sky-300/70 to-transparent" />
+      {/* Engineering dot grid, faded out toward the base */}
+      <span
+        className="pointer-events-none absolute inset-0 hidden opacity-70 sm:block"
+        style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(125,211,252,0.13) 1px, transparent 0)',
+          backgroundSize: '22px 22px',
+          maskImage: 'linear-gradient(to bottom, black, transparent 72%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black, transparent 72%)',
+        }}
+      />
 
-      {/* Light pooling in from above on hover */}
-      <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100
-                       bg-[radial-gradient(85%_60%_at_50%_0%,rgba(56,189,248,0.20),transparent_72%)]" />
+      {/* Cursor spotlight */}
+      <motion.span
+        style={{ background: spotlight }}
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      />
+
+      {/* Accent bar along the top of the primary card */}
+      {card.featured && (
+        <span className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-70" />
+      )}
 
       {/* Corner brackets: reads as a targeting reticle, ties into the HUD language */}
-      {['left-4 top-4 border-l border-t', 'right-4 top-4 border-r border-t',
-        'left-4 bottom-4 border-l border-b', 'right-4 bottom-4 border-r border-b'].map((pos) => (
+      {['left-3 top-3 border-l border-t', 'right-3 top-3 border-r border-t',
+        'left-3 bottom-3 border-l border-b', 'right-3 bottom-3 border-r border-b'].map((pos) => (
         <span
           key={pos}
-          className={`pointer-events-none absolute hidden h-4 w-4 rounded-[3px] border-sky-300/25 transition-colors duration-700 group-hover:border-sky-300/70 sm:block ${pos}`}
+          className={`pointer-events-none absolute hidden h-3.5 w-3.5 rounded-[3px] border-sky-300/20 transition-colors duration-700 group-hover:border-[var(--accent)]/70 sm:block ${pos}`}
         />
       ))}
 
-      <span
-        className="relative z-10 shrink-0 transition-transform duration-700 group-hover:-translate-y-1.5 group-hover:scale-[1.07] sm:mb-7"
-        style={{ filter: 'drop-shadow(0 0 22px rgba(56,189,248,0.45))' }}
-      >
-        <Mark size={card.id === 'elc' ? 124 : 104} />
+      {/* Index + status */}
+      <span className="relative z-10 hidden items-center justify-between sm:flex">
+        <span className="font-mono text-[11px] tracking-[0.3em] text-sky-300/45 transition-colors duration-700 group-hover:text-[var(--accent)]">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <span className="flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+          <span className="h-1 w-1 rounded-full bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]" />
+          {card.status}
+        </span>
       </span>
 
-      <span className="relative z-10 flex min-w-0 flex-col sm:items-center">
-        <span className="text-[15px] font-bold leading-tight tracking-[0.2em] text-white sm:text-[19px] sm:tracking-[0.22em]">
+      {/* Mark, framed so it sits in something instead of floating in dead space */}
+      <span className="relative z-10 flex shrink-0 items-center justify-center sm:flex-1 sm:py-4">
+        <span className="relative flex items-center justify-center rounded-[1.25rem] border border-white/[0.06] bg-white/[0.02] p-3 transition-transform duration-700 group-hover:-translate-y-1 group-hover:scale-[1.04] sm:p-7">
+          <span className="pointer-events-none absolute inset-0 rounded-[1.25rem] bg-[var(--accent)] opacity-[0.07] blur-2xl transition-opacity duration-700 group-hover:opacity-20" />
+          <span className="relative" style={{ filter: 'drop-shadow(0 0 20px color-mix(in srgb, var(--accent) 55%, transparent))' }}>
+            <Mark size={card.id === 'elc' ? 118 : 98} />
+          </span>
+        </span>
+      </span>
+
+      {/* Left-aligned block at the base: the editorial rhythm that stops every
+          card reading as the same centred stack. */}
+      <span className="relative z-10 flex min-w-0 flex-col">
+        <span className="text-[15px] font-semibold leading-tight tracking-[0.16em] text-white sm:text-[21px]">
           {card.title}
         </span>
 
-        <span className="mt-2 text-[9px] font-medium leading-relaxed tracking-[0.16em] text-sky-300/70 transition-colors duration-700 group-hover:text-sky-200 sm:mt-3 sm:tracking-[0.18em]">
+        <span className="mt-1.5 text-[10px] font-light tracking-[0.1em] text-slate-400 sm:mt-2 sm:text-[11px]">
           {card.caption}
         </span>
 
-        <span className="mt-3 hidden items-center gap-2 rounded-full border border-sky-400/25 bg-sky-400/5 px-4 py-1.5
-                         text-[8px] font-semibold uppercase tracking-[0.24em] text-sky-300/80
-                         transition-all duration-700 group-hover:border-sky-300/60 group-hover:bg-sky-400/15 group-hover:text-white
-                         sm:mt-7 sm:inline-flex">
-          {card.cta}
-          <ArrowRight size={10} className="transition-transform duration-700 group-hover:translate-x-1" />
+        <span className="my-5 hidden h-px bg-gradient-to-r from-white/15 via-white/5 to-transparent sm:block" />
+
+        <span className="hidden items-center justify-between sm:flex">
+          <span className="flex flex-col">
+            <span className="truncate whitespace-nowrap text-[8px] uppercase tracking-[0.24em] text-slate-600">{card.meta}</span>
+            <span className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--accent)]">
+              {card.cta}
+            </span>
+          </span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] transition-all duration-700 group-hover:border-[var(--accent)]/60 group-hover:bg-[var(--accent)]/15">
+            <ArrowRight size={13} className="text-slate-400 transition-all duration-700 group-hover:translate-x-0.5 group-hover:text-white" />
+          </span>
         </span>
       </span>
     </motion.button>
@@ -183,12 +245,21 @@ const UIOverlay = ({ menuState, isTransitioning, setIsTransitioning, activeView,
             motion as the headset dissolving rather than a separate reveal. */}
         {activeView === 'home' && (
           <div className="w-full max-w-[1120px] px-2 sm:px-4">
-            <motion.p
+            <motion.div
               style={{ opacity: hubLabelOpacity, y: hubLabelY }}
-              className="mb-6 text-center text-[9px] font-semibold uppercase tracking-[0.34em] text-sky-300/70 sm:mb-9"
+              className="mb-7 flex flex-col items-center sm:mb-10"
             >
-              Select a destination
-            </motion.p>
+              <span className="flex items-center gap-4">
+                <span className="h-px w-10 bg-gradient-to-r from-transparent to-sky-400/50 sm:w-16" />
+                <span className="text-[9px] font-semibold uppercase tracking-[0.34em] text-sky-300/80">
+                  Select a destination
+                </span>
+                <span className="h-px w-10 bg-gradient-to-l from-transparent to-sky-400/50 sm:w-16" />
+              </span>
+              <span className="mt-3 text-[11px] font-light tracking-[0.06em] text-slate-500">
+                Three ways into the digital twin
+              </span>
+            </motion.div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6 lg:gap-8">
               {HUB.map((card, i) => (
