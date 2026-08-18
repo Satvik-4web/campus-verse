@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Large media kept out of git — two ECE videos exceed GitHub's 100MB hard
+# limit, and the set totals ~870MB. Files stay on disk for local dev; set
+# VITE_MEDIA_BASE_URL to serve them from a CDN in production.
+public/videos/
+public/about_bg.mp4

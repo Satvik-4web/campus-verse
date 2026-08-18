@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import KioskModel from '../components/about/KioskModel';
+import { media } from '../lib/media';
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -74,7 +75,7 @@ const About = () => (
       playsInline
       className="fixed inset-0 z-0 h-full w-full object-cover opacity-[0.5] saturate-[0.75]"
     >
-      <source src="/about_bg.mp4" type="video/mp4" />
+      <source src={media('/about_bg.mp4')} type="video/mp4" />
     </video>
 
     {/* Cool tint, so the footage sits inside the navy rather than beside it */}
