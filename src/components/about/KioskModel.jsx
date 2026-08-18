@@ -335,14 +335,17 @@ const KioskModel = () => {
           <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
         </EffectComposer>
 
-        {/* Controls to rotate around the kiosk */}
-        <OrbitControls 
-          enableZoom={false} 
+        {/* Drag to look around the kiosk. autoRotate was carrying the camera a
+            full turn, which parked it behind the unit — a featureless grey slab
+            — for a good part of every loop. The azimuth is clamped to the
+            branded faces instead, and <Float> supplies the idle movement. */}
+        <OrbitControls
+          enableZoom={false}
           enablePan={false}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 1.5}
-          autoRotate
-          autoRotateSpeed={0.8}
+          minAzimuthAngle={-0.35}
+          maxAzimuthAngle={1.3}
         />
       </Canvas>
     </div>
