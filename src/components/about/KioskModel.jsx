@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, Text, RoundedBox, useGLTF } from '@react-three/drei';
+import { OrbitControls, Environment, Text, RoundedBox, useGLTF, Float, ContactShadows } from '@react-three/drei';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
 
 // Stylized VR Headset Component
@@ -202,17 +203,17 @@ const Kiosk = (props) => {
           { id: '3', text: 'LOOK - MOVE - DISCOVER', y: 0.8 }
         ].map((btn) => (
           <group key={btn.id} position={[0, btn.y, 0]}>
-            <mesh position={[-0.4, 0, 0]}><circleGeometry args={[0.08, 32]} /><meshBasicMaterial color="#003399" /></mesh>
+            <mesh position={[-0.4, 0, 0]}><circleGeometry args={[0.08, 32]} /><meshStandardMaterial color="#00d2ff" emissive="#00d2ff" emissiveIntensity={1.5} toneMapped={false} /></mesh>
             <Text position={[-0.4, 0, 0.01]} fontSize={0.06} color="#fff">{btn.id}</Text>
             
-            <mesh position={[0.15, 0, 0]}><planeGeometry args={[0.8, 0.15]} /><meshBasicMaterial color="#003399" /></mesh>
+            <mesh position={[0.15, 0, 0]}><planeGeometry args={[0.8, 0.15]} /><meshStandardMaterial color="#00d2ff" emissive="#00d2ff" emissiveIntensity={1.5} toneMapped={false} /></mesh>
             <Text position={[0.15, 0, 0.01]} fontSize={0.05} color="#fff">{btn.text}</Text>
           </group>
         ))}
 
         {/* Email Footer */}
         <Text position={[0, 0.5, 0]} fontSize={0.04} color="#333">FOR ANY QUERIES:</Text>
-        <mesh position={[0, 0.3, 0]}><planeGeometry args={[0.8, 0.15]} /><meshBasicMaterial color="#003399" /></mesh>
+        <mesh position={[0, 0.3, 0]}><planeGeometry args={[0.8, 0.15]} /><meshStandardMaterial color="#00d2ff" emissive="#00d2ff" emissiveIntensity={1.5} toneMapped={false} /></mesh>
         <Text position={[0, 0.3, 0.01]} fontSize={0.05} color="#fff">campusverse.info@gmail.com</Text>
       </group>
 
@@ -303,16 +304,36 @@ const KioskModel = () => {
     <div className="w-full h-full min-h-[600px] cursor-grab active:cursor-grabbing">
       <Canvas camera={{ position: [4.5, 4, 7], fov: 45 }}>
         {/* Cinematic Lighting for the Model */}
-        <ambientLight intensity={1.5} />
+        <ambientLight intensity={0.5} />
         <directionalLight position={[5, 10, 5]} intensity={2.5} castShadow />
-        <directionalLight position={[-5, 5, -5]} intensity={1.5} color="#00d2ff" />
         <spotLight position={[0, 8, 4]} angle={0.5} penumbra={1} intensity={3} castShadow />
+        <pointLight position={[0, 2, 2]} intensity={2} color="#00d2ff" distance={10} />
 
         <React.Suspense fallback={null}>
-          <group position={[0, -2.5, 0]}>
-            <Kiosk />
-          </group>
+          <Float 
+            speed={2} 
+            rotationIntensity={0.2} 
+            floatIntensity={0.5}
+            floatingRange={[-0.1, 0.1]}
+          >
+            <group position={[0, -1.8, 0]}>
+              <Kiosk />
+            </group>
+          </Float>
+          
+          <ContactShadows 
+            position={[0, -2.5, 0]} 
+            opacity={0.6} 
+            scale={10} 
+            blur={2.5} 
+            far={4} 
+            color="#000"
+          />
         </React.Suspense>
+
+        <EffectComposer disableNormalPass>
+          <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
+        </EffectComposer>
 
         {/* Controls to rotate around the kiosk */}
         <OrbitControls 
@@ -321,7 +342,7 @@ const KioskModel = () => {
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={Math.PI / 1.5}
           autoRotate
-          autoRotateSpeed={1}
+          autoRotateSpeed={0.8}
         />
       </Canvas>
     </div>

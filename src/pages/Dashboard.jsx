@@ -260,13 +260,16 @@ const DEPARTMENT_VIDEOS = {
     { title: 'Virtual Tour 4', url: '/videos/campus_tours/Website_videos(6).mp4' }
   ],
   'ELC Projects': [
-    { title: 'Project Image 1', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 11.11.14 AM.jpeg' },
     { title: 'Project Image 2', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.17 PM.jpeg' },
     { title: 'Project Image 3', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.18 PM (1).jpeg' },
     { title: 'Project Image 4', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.18 PM (2).jpeg' },
     { title: 'Project Image 5', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.18 PM.jpeg' },
     { title: 'Project Image 6', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.19 PM (1).jpeg' },
     { title: 'Project Image 7', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.19 PM.jpeg' }
+  ],
+  'Resources': [
+    { title: 'Bajaj Centre', url: '/videos/resources/BajajCentre_1.mp4' },
+    { title: 'Virtual Tour (Resources)', url: '/videos/resources/Website_videos(3).mp4' }
   ]
 };
 
@@ -291,7 +294,7 @@ const Dashboard = () => {
       navigate('/faculty');
     } else {
       setSelectedCard(card);
-      if (card.title === 'Startups' || card.title === 'Campus Tours' || card.title === 'ELC Projects') {
+      if (card.title === 'Startups' || card.title === 'Campus Tours' || card.title === 'ELC Projects' || card.title === 'Resources') {
         setActiveTab(card.title);
         if (DEPARTMENT_VIDEOS[card.title] && DEPARTMENT_VIDEOS[card.title].length > 0) {
           setActiveVideo(DEPARTMENT_VIDEOS[card.title][0]);
@@ -381,7 +384,7 @@ const Dashboard = () => {
 
               <button 
                 onClick={() => {
-                  if (activeTab && selectedCard?.title !== 'Startups' && selectedCard?.title !== 'Campus Tours' && selectedCard?.title !== 'ELC Projects') {
+                  if (activeTab && selectedCard?.title !== 'Startups' && selectedCard?.title !== 'Campus Tours' && selectedCard?.title !== 'ELC Projects' && selectedCard?.title !== 'Resources') {
                     setActiveTab(null);
                     setActiveVideo(null);
                   } else {
@@ -393,7 +396,7 @@ const Dashboard = () => {
                 }}
                 className="absolute top-10 right-10 text-[rgba(255,255,255,0.3)] hover:text-white transition-all hover:rotate-90 z-20"
               >
-                {activeTab && selectedCard?.title !== 'Startups' && selectedCard?.title !== 'Campus Tours' && selectedCard?.title !== 'ELC Projects' ? <ArrowLeft size={24} /> : <X size={24} />}
+                {activeTab && selectedCard?.title !== 'Startups' && selectedCard?.title !== 'Campus Tours' && selectedCard?.title !== 'ELC Projects' && selectedCard?.title !== 'Resources' ? <ArrowLeft size={24} /> : <X size={24} />}
               </button>
 
               <div className="flex flex-col gap-1 mb-10 relative z-10">

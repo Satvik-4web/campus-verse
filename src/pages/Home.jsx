@@ -1,67 +1,189 @@
-import React from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useMotionValueEvent, useTransform } from 'framer-motion';
 import Scene from '../components/Scene';
 import UIOverlay from '../components/UIOverlay';
+
+const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+
+// Tuned against real hardware: ~22 mouse notches walks the whole sequence, so
+// the cinematic has room to breathe instead of being over in a flick.
+const SCROLL_SPEED = 0.00046;
+// Per-event ceiling. A violent trackpad flick fires huge deltas and used to
+// teleport past the whole animation in one frame.
+const MAX_STEP = 0.046;
+const TOUCH_GAIN = 3.6;
 
 function Home() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
-  
+
+  const scrollProgress = useMotionValue(0);
+  // Overdamped (ratio ~1.45): glides to rest without ever overshooting, so the
+  // headset sequence never springs backwards at the end of a flick.
+  const smoothScroll = useSpring(scrollProgress, {
+    stiffness: 80,
+    damping: 26,
+    mass: 1,
+    restDelta: 0.0001,
+  });
+
+  const [menuState, setMenuState] = useState('home');
+  const [activeView, setActiveView] = useState('home'); // 'home', 'about', 'explore'
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const containerRef = useRef(null);
+  const touchLastY = useRef(0);
+
+  // Update menuState specifically for the 2D UI overlay based on smooth scroll
+  useMotionValueEvent(smoothScroll, "change", (latest) => {
+    if (latest < 0.3) {
+      if (menuState !== 'home') setMenuState('home');
+    } else if (latest < 0.7) {
+      if (menuState !== 'pipes') setMenuState('pipes');
+    } else {
+      if (menuState !== 'logos') setMenuState('logos');
+    }
+  });
+
   // Smooth out the mouse movement for the background text parallax
   const mouseXSpring = useSpring(x, { stiffness: 50, damping: 20 });
   const mouseYSpring = useSpring(y, { stiffness: 50, damping: 20 });
   const rotateXSpring = useSpring(rotateX, { stiffness: 50, damping: 20 });
   const rotateYSpring = useSpring(rotateY, { stiffness: 50, damping: 20 });
 
+  // Fade out background text gracefully as we scroll in
+  const bgOpacity = useTransform(smoothScroll, [0.04, 0.36], [1, 0]);
+
+  // Detonation flash. Peaks the instant the headset lets go, which hides the
+  // hand-off between the 3D burst and the panels arriving.
+  const flashOpacity = useTransform(smoothScroll, [0.5, 0.68, 0.88], [0, 0.16, 0]);
+
   const handleMouseMove = (e) => {
     const normX = e.clientX / window.innerWidth - 0.5;
     const normY = e.clientY / window.innerHeight - 0.5;
-    
+
     // Parallax movement
     x.set(normX * -60);
     y.set(normY * -60);
-    
+
     // 3D Tilt effect
-    rotateX.set(normY * 15); // Tilt up/down
-    rotateY.set(normX * -15); // Tilt left/right
+    rotateX.set(normY * 15);
+    rotateY.set(normX * -15);
   };
 
+  /** Single clamped, device-normalised way to advance the sequence. */
+  const advance = useCallback((deltaPx) => {
+    const step = clamp(deltaPx * SCROLL_SPEED, -MAX_STEP, MAX_STEP);
+    scrollProgress.set(clamp(scrollProgress.get() + step, 0, 1));
+  }, [scrollProgress]);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    // Registered manually rather than via onWheel/onTouchMove props: React
+    // attaches those passively, so preventDefault is ignored and the browser
+    // still fires its own overscroll / swipe-to-go-back over the scrub.
+    const onWheel = (e) => {
+      e.preventDefault();
+      // deltaMode 0 = pixels, 1 = lines, 2 = pages. Firefox mouse wheels report
+      // lines while trackpads report pixels, so normalise before scaling —
+      // otherwise the same gesture moves ~16x further on one browser.
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+      advance(e.deltaY * unit);
+    };
+
+    const onTouchStart = (e) => {
+      touchLastY.current = e.touches[0].clientY;
+    };
+
+    // Continuous, so the scene tracks the finger instead of jumping once on release.
+    const onTouchMove = (e) => {
+      e.preventDefault();
+      const yNow = e.touches[0].clientY;
+      advance((touchLastY.current - yNow) * TOUCH_GAIN);
+      touchLastY.current = yNow;
+    };
+
+    const onKeyDown = (e) => {
+      // Let the overlay's own controls keep their keyboard behaviour.
+      if (e.target.closest && e.target.closest('button, a, input, textarea')) return;
+      const jump = { ArrowDown: 420, PageDown: 1300, ' ': 1300, ArrowUp: -420, PageUp: -1300 }[e.key];
+      if (jump !== undefined) {
+        e.preventDefault();
+        advance(jump);
+      } else if (e.key === 'Home') {
+        scrollProgress.set(0);
+      } else if (e.key === 'End') {
+        scrollProgress.set(1);
+      }
+    };
+
+    el.addEventListener('wheel', onWheel, { passive: false });
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      el.removeEventListener('wheel', onWheel);
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [advance, scrollProgress]);
+
   return (
-    <div 
-      className="relative w-screen h-screen bg-[#040a18] overflow-hidden perspective-1000"
+    <div
+      ref={containerRef}
+      className="relative w-screen h-screen overflow-hidden perspective-1000 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#0e2547] via-[#050e21] to-[#01040c]"
       onMouseMove={handleMouseMove}
-      style={{ perspective: '1000px' }}
+      style={{
+        perspective: '1000px',
+        // The scrub owns the gesture; stop mobile Safari/Chrome from also
+        // panning or triggering pull-to-refresh underneath it.
+        touchAction: 'none',
+        overscrollBehavior: 'none',
+      }}
     >
-      
+
       {/* Background Huge Text - Placed BEHIND the 3D Canvas */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none overflow-hidden"
-        style={{ 
-          x: mouseXSpring, 
+        style={{
+          x: mouseXSpring,
           y: mouseYSpring,
           rotateX: rotateXSpring,
           rotateY: rotateYSpring,
+          opacity: bgOpacity,
           transformStyle: 'preserve-3d'
         }}
       >
-        <h1 className="flex flex-col items-center justify-center font-bold tracking-[0.15em] select-none text-[#3a6be4] opacity-20 mix-blend-screen leading-[0.85] drop-shadow-[0_0_30px_rgba(58,107,228,0.4)]">
-          <span className="text-[13vw]">CAMPUS</span>
-          <span className="text-[13vw]">VERSE</span>
+        {/* Vertical fade instead of a flat 20% tint — the letters sink into the
+            background at the base rather than sitting on it as solid blocks. */}
+        <h1 className="flex flex-col items-center justify-center font-bold tracking-[0.15em] select-none leading-[0.85] text-transparent bg-clip-text bg-gradient-to-b from-sky-400/45 via-sky-500/25 to-sky-600/10 drop-shadow-[0_0_45px_rgba(56,189,248,0.18)]">
+          <span className="text-[14vw]">CAMPUS</span>
+          <span className="text-[14vw]">VERSE</span>
         </h1>
       </motion.div>
 
       {/* 3D Canvas Background */}
       <div className="absolute inset-0 z-10 pointer-events-auto">
-        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-          <Scene />
+        <Canvas gl={{ alpha: true, antialias: true }} camera={{ position: [0, 0, 8], fov: 45 }}>
+          <Scene menuState={menuState} smoothScroll={smoothScroll} isTransitioning={isTransitioning} />
         </Canvas>
       </div>
 
+      {/* Burst flash — screen-blended so it blows out to white at the centre
+          without washing the navy at the edges. */}
+      <motion.div
+        className="absolute inset-0 z-30 pointer-events-none mix-blend-screen bg-[radial-gradient(circle_at_center,rgba(186,230,253,0.75),rgba(56,189,248,0.22)_45%,transparent_70%)]"
+        style={{ opacity: flashOpacity }}
+      />
+
       {/* 2D UI Overlay */}
-      <UIOverlay />
+      <UIOverlay menuState={menuState} isTransitioning={isTransitioning} setIsTransitioning={setIsTransitioning} activeView={activeView} setActiveView={setActiveView} smoothScroll={smoothScroll} />
     </div>
   );
 }
