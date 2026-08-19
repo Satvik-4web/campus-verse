@@ -181,7 +181,7 @@ const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
   );
 };
 
-const UIOverlay = ({ menuState, isTransitioning, setIsTransitioning, activeView, setActiveView, smoothScroll }) => {
+const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
   const navigate = useNavigate();
 
   // Motion values drive the visuals; this only gates clicks, so the panels
@@ -386,16 +386,7 @@ const UIOverlay = ({ menuState, isTransitioning, setIsTransitioning, activeView,
               transition={{ duration: 0.8, ease: EASE }}
               className="flex flex-col items-center gap-6"
             >
-              <button
-                onClick={() => setIsTransitioning(true)}
-                disabled={isTransitioning}
-                className={`group flex items-center gap-3 px-6 py-2 rounded-full border ${isTransitioning ? 'border-[#38bdf8] shadow-[0_0_20px_rgba(56,189,248,0.8)]' : 'border-white/20 hover:border-[#38bdf8]/60 hover:shadow-[0_0_15px_rgba(56,189,248,0.4)]'} bg-[#040a18]/80 backdrop-blur-xl transition-all cursor-pointer`}
-              >
-                <div className={`w-2 h-2 rounded-full bg-[#38bdf8] ${isTransitioning ? 'shadow-[0_0_15px_#38bdf8] scale-150' : 'shadow-[0_0_8px_#38bdf8] animate-pulse'} transition-all duration-500`}></div>
-                <span className={`text-[10px] font-semibold tracking-[0.2em] uppercase transition-colors ${isTransitioning ? 'text-[#38bdf8]' : 'text-white group-hover:text-[#38bdf8]'}`}>System Ready</span>
-              </button>
-
-              <div className="group flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity mt-4 animate-bounce cursor-default">
+              <div className="group flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity animate-bounce cursor-default">
                 <span className="text-[10px] font-semibold tracking-[0.2em] text-white group-hover:text-[#38bdf8] group-hover:drop-shadow-[0_0_8px_rgba(56,189,248,0.5)] transition-all uppercase">Scroll to Enter</span>
                 <ChevronDown size={16} className="text-white group-hover:text-[#38bdf8] transition-colors" />
               </div>

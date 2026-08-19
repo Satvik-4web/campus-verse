@@ -32,7 +32,10 @@ function Home() {
 
   const [menuState, setMenuState] = useState('home');
   const [activeView, setActiveView] = useState('home'); // 'home', 'about', 'explore'
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  // Drives the wireframe + glitch pass in Scene. Nothing triggers it now that
+  // the SYSTEM READY button is gone, but the wiring stays so it can be driven
+  // again later without rebuilding that path.
+  const isTransitioning = false;
 
   const containerRef = useRef(null);
   const touchLastY = useRef(0);
@@ -183,7 +186,7 @@ function Home() {
       />
 
       {/* 2D UI Overlay */}
-      <UIOverlay menuState={menuState} isTransitioning={isTransitioning} setIsTransitioning={setIsTransitioning} activeView={activeView} setActiveView={setActiveView} smoothScroll={smoothScroll} />
+      <UIOverlay menuState={menuState} activeView={activeView} setActiveView={setActiveView} smoothScroll={smoothScroll} />
     </div>
   );
 }
