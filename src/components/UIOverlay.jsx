@@ -10,6 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, Map, Cpu, ArrowRight } from 'lucide-react';
 import { ElcMark, CampusVerseMark, VrGamesMark } from './BrandMarks';
+import KioskModel from './about/KioskModel';
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -286,54 +287,86 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
               transition={{ duration: 0.6, ease: EASE }}
               className="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto pointer-events-auto px-4 py-2"
             >
-              <h2 className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 text-3xl font-black tracking-tighter mb-8 text-center sm:text-4xl sm:mb-10">
-                DISCOVER THE DIGITAL TWIN
-              </h2>
+              {/* Two columns: the pitch on the left, the physical kiosk on the
+                  right. It was two generic bento boxes stacked over a button,
+                  which said little and showed nothing. */}
+              <div className="grid w-full max-w-6xl grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_0.85fr] lg:gap-12">
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto w-full">
-                {/* Bento Box 1 */}
-                <div className="relative group bg-white/[0.02] backdrop-blur-3xl border border-white/[0.08] rounded-[2rem] p-8 md:p-10 overflow-hidden transition-all duration-700 hover:bg-white/[0.04] hover:border-sky-500/30 hover:-translate-y-1">
-                  <div className="absolute -inset-px bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-sky-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                {/* Copy */}
+                <div className="flex flex-col">
+                  <span className="flex items-center gap-3">
+                    <span className="h-px w-10 bg-gradient-to-r from-transparent to-sky-400/60" />
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.34em] text-sky-300/80">
+                      The digital twin
+                    </span>
+                  </span>
 
-                  <div className="text-sky-400 font-bold tracking-[0.2em] text-xs mb-3 flex items-center gap-2 relative z-10">
-                    <svg className="w-2 h-2 text-sky-400" viewBox="0 0 8 8" fill="currentColor">
-                      <circle cx="4" cy="4" r="4" className="animate-pulse shadow-[0_0_8px_currentColor]"/>
-                    </svg>
-                    THE VISION
+                  <h2 className="mt-4 bg-gradient-to-r from-sky-300 via-sky-400 to-blue-500 bg-clip-text text-4xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-5xl">
+                    Campus Verse
+                  </h2>
+
+                  <p className="mt-4 max-w-lg text-[14px] font-light leading-relaxed text-slate-400 sm:text-[15px]">
+                    A spatially accurate replica of the institute, streamed as geometry rather than
+                    video — walkable from a browser, a phone, or the kiosk standing on campus.
+                  </p>
+
+                  <div className="mt-7 flex flex-col gap-5">
+                    {[
+                      ['The vision', 'Immersive spatial computing', 'One model behind every tour, lab and event, so walking out of a hall puts you in the quad that actually adjoins it.'],
+                      ['Core technology', 'Zero-install WebGL', 'A React Three Fiber pipeline streams the twin straight to the browser — no download, no plugin, nothing to keep updated.'],
+                    ].map(([eyebrow, title, body]) => (
+                      <div key={title} className="flex gap-4">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400 shadow-[0_0_10px_#38bdf8]" />
+                        <div className="min-w-0">
+                          <div className="text-[9px] font-bold uppercase tracking-[0.22em] text-sky-300/70">{eyebrow}</div>
+                          <h3 className="mt-1 text-[17px] font-semibold text-slate-100">{title}</h3>
+                          <p className="mt-1.5 text-[13px] font-light leading-relaxed text-slate-400">{body}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
-                  <h3 className="text-2xl font-semibold text-slate-100 mb-4 relative z-10">Immersive Spatial Computing</h3>
-                  <p className="text-slate-400/80 leading-relaxed font-light text-[15px] relative z-10">
-                    Experience a fully interactive digital twin of the campus, designed for seamless exploration and interaction.
-                  </p>
+                  <div className="mt-7 flex items-center gap-6 border-t border-white/[0.07] pt-5">
+                    {[['1:1', 'Spatial scale'], ['60', 'Target fps'], ['0', 'Installs']].map(([v, l]) => (
+                      <div key={l}>
+                        <div className="bg-gradient-to-r from-sky-300 to-blue-500 bg-clip-text text-xl font-semibold text-transparent">{v}</div>
+                        <div className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.18em] text-slate-500">{l}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setActiveView('explore')}
+                    className="group relative mt-8 flex w-fit items-center gap-3 overflow-hidden rounded-full border border-sky-500/40 bg-sky-900/20 px-8 py-3.5 text-sky-200 shadow-[0_0_24px_-6px_rgba(56,189,248,0.35)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_46px_-4px_rgba(56,189,248,0.75)]"
+                  >
+                    <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-sky-400/25 to-transparent transition-transform duration-[1100ms] ease-out group-hover:translate-x-full" />
+                    <span className="relative z-10 text-[11px] font-semibold uppercase tracking-[0.24em]">Explore Campus Verse</span>
+                    <ArrowRight size={14} className="relative z-10 transition-transform duration-500 group-hover:translate-x-1" />
+                  </motion.button>
                 </div>
 
-                {/* Bento Box 2 */}
-                <div className="relative group bg-white/[0.02] backdrop-blur-3xl border border-white/[0.08] rounded-[2rem] p-8 md:p-10 overflow-hidden transition-all duration-700 hover:bg-white/[0.04] hover:border-sky-500/30 hover:-translate-y-1">
-                  <div className="absolute -inset-px bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-sky-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                {/* The kiosk itself, on its lit plinth */}
+                <div className="relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent backdrop-blur-xl">
+                  <span className="pointer-events-none absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-sky-300/50 to-transparent" />
+                  <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_58%,rgba(56,189,248,0.16),transparent_70%)]" />
 
-                  <div className="text-sky-400 font-bold tracking-[0.2em] text-xs mb-3 flex items-center gap-2 relative z-10">
-                    <svg className="w-2 h-2 text-sky-400" viewBox="0 0 8 8" fill="currentColor">
-                      <circle cx="4" cy="4" r="4" className="animate-pulse shadow-[0_0_8px_currentColor]"/>
-                    </svg>
-                    CORE TECHNOLOGY
+                  <div className="relative h-[300px] w-full sm:h-[380px] lg:h-[440px]">
+                    <KioskModel />
                   </div>
 
-                  <h3 className="text-2xl font-semibold text-slate-100 mb-4 relative z-10">Zero-Latency WebGL</h3>
-                  <p className="text-slate-400/80 leading-relaxed font-light text-[15px] relative z-10">
-                    Powered by a custom React Three Fiber pipeline. Our rendering engine delivers desktop-class cinematic visuals directly in your browser.
-                  </p>
+                  <div className="relative z-10 flex items-center justify-between border-t border-white/[0.06] px-5 py-3">
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                      Campus Verse kiosk
+                    </span>
+                    <span className="flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.22em] text-sky-300/70">
+                      <span className="h-1 w-1 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]" />
+                      Drag to inspect
+                    </span>
+                  </div>
                 </div>
               </div>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setActiveView('explore')}
-                className="mt-10 sm:mt-12 relative px-10 py-4 bg-sky-900/20 border border-sky-500/40 rounded-full text-sky-300 font-medium tracking-wide overflow-hidden shadow-[0_0_20px_rgba(56,189,248,0.15)] hover:shadow-[0_0_40px_rgba(56,189,248,0.4)] transition-shadow duration-500 cursor-pointer"
-              >
-                Explore Campus Verse
-              </motion.button>
             </motion.div>
           )}
 
