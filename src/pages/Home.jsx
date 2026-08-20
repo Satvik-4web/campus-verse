@@ -1,8 +1,9 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { motion, useMotionValue, useSpring, useMotionValueEvent, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring, useMotionValueEvent, useTransform } from 'framer-motion';
 import Scene from '../components/Scene';
 import UIOverlay from '../components/UIOverlay';
+import { DriftKeyframes, DriftBlob, Starfield } from '../components/AmbientField';
 
 const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 
@@ -177,6 +178,35 @@ function Home() {
           <Scene menuState={menuState} smoothScroll={smoothScroll} isTransitioning={isTransitioning} />
         </Canvas>
       </div>
+
+      {/* Ambient backdrop for the About / Explore panels. The panels used to
+          sit on a plain radial gradient plus a sparse dot field once the
+          headset had dissolved out of frame — flat next to the glass. This
+          fades in behind them only: slow drifting colour fields plus a
+          canvas starfield, transparent so it composites over the existing
+          gradient and 3D canvas rather than covering them. */}
+      <AnimatePresence>
+        {activeView !== 'home' && (
+          <motion.div
+            key="hub-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 z-[15] overflow-hidden pointer-events-none"
+          >
+            <DriftKeyframes />
+            <DriftBlob preset="a" color="#38bdf8" opacity={0.16} blur={160} className="-left-[10%] top-[-15%] h-[65vh] w-[65vw]" />
+            <DriftBlob preset="b" color="#3b82f6" opacity={0.14} blur={170} className="-right-[8%] bottom-[-10%] h-[60vh] w-[55vw]" />
+            <Starfield
+              layers={[
+                { count: 55, speed: 0.045, radius: [0.5, 1.0], alpha: [0.15, 0.35] },
+                { count: 30, speed: 0.09, radius: [0.9, 1.6], alpha: [0.25, 0.5] },
+              ]}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Burst flash — screen-blended so it blows out to white at the centre
           without washing the navy at the edges. */}
