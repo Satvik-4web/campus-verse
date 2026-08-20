@@ -295,42 +295,45 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                 {/* Copy */}
                 <div className="flex flex-col">
                   <span className="flex items-center gap-3">
-                    <span className="h-px w-10 bg-gradient-to-r from-transparent to-sky-400/60" />
-                    <span className="text-[9px] font-semibold uppercase tracking-[0.34em] text-sky-300/80">
-                      The digital twin
+                    <span className="h-px w-12 bg-gradient-to-r from-transparent to-sky-400" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                      THE DIGITAL TWIN
                     </span>
                   </span>
 
-                  <h2 className="mt-4 bg-gradient-to-r from-sky-300 via-sky-400 to-blue-500 bg-clip-text text-4xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-5xl">
-                    Campus Verse
+                  <h2 className="mt-5 bg-gradient-to-b from-white to-sky-200/80 bg-clip-text text-5xl font-black leading-tight tracking-tighter text-transparent sm:text-6xl uppercase">
+                    ABOUT CAMPUS VERSE
                   </h2>
 
-                  <p className="mt-4 max-w-lg text-[14px] font-light leading-relaxed text-slate-400 sm:text-[15px]">
+                  <p className="mt-6 max-w-lg text-[15px] font-light leading-relaxed text-slate-300 sm:text-base">
                     A spatially accurate replica of the institute, streamed as geometry rather than
                     video — walkable from a browser, a phone, or the kiosk standing on campus.
                   </p>
 
-                  <div className="mt-7 flex flex-col gap-5">
+                  <div className="mt-8 flex flex-col gap-4">
                     {[
-                      ['The vision', 'Immersive spatial computing', 'One model behind every tour, lab and event, so walking out of a hall puts you in the quad that actually adjoins it.'],
-                      ['Core technology', 'Zero-install WebGL', 'A React Three Fiber pipeline streams the twin straight to the browser — no download, no plugin, nothing to keep updated.'],
+                      ['THE VISION', 'Immersive Spatial Computing', 'One model behind every tour, lab and event, so walking out of a hall puts you in the quad that actually adjoins it.'],
+                      ['CORE TECHNOLOGY', 'Zero-Install WebGL', 'A React Three Fiber pipeline streams the twin straight to the browser — no download, no plugin, nothing to keep updated.'],
                     ].map(([eyebrow, title, body]) => (
-                      <div key={title} className="flex gap-4">
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400 shadow-[0_0_10px_#38bdf8]" />
-                        <div className="min-w-0">
-                          <div className="text-[9px] font-bold uppercase tracking-[0.22em] text-sky-300/70">{eyebrow}</div>
-                          <h3 className="mt-1 text-[17px] font-semibold text-slate-100">{title}</h3>
-                          <p className="mt-1.5 text-[13px] font-light leading-relaxed text-slate-400">{body}</p>
+                      <div key={title} className="group relative overflow-hidden rounded-2xl border border-white/[0.05] bg-white/[0.01] p-5 backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/[0.03]">
+                        <div className="absolute -inset-px bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-sky-500/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+                        <div className="relative z-10 flex gap-4">
+                          <span className="mt-1.5 h-2 w-2 shrink-0 rotate-45 bg-sky-400 shadow-[0_0_12px_#38bdf8] animate-pulse" />
+                          <div className="min-w-0">
+                            <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-sky-400/90">{eyebrow}</div>
+                            <h3 className="mt-1 text-lg font-bold tracking-wide text-white transition-colors duration-300 group-hover:text-sky-200">{title}</h3>
+                            <p className="mt-2 text-[13px] font-light leading-relaxed text-slate-400">{body}</p>
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="mt-7 flex items-center gap-6 border-t border-white/[0.07] pt-5">
-                    {[['1:1', 'Spatial scale'], ['60', 'Target fps'], ['0', 'Installs']].map(([v, l]) => (
+                  <div className="mt-8 flex items-center gap-10 border-t border-white/[0.08] pt-6">
+                    {[['1:1', 'Spatial Scale'], ['60', 'Target FPS'], ['0', 'Installs']].map(([v, l]) => (
                       <div key={l}>
-                        <div className="bg-gradient-to-r from-sky-300 to-blue-500 bg-clip-text text-xl font-semibold text-transparent">{v}</div>
-                        <div className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.18em] text-slate-500">{l}</div>
+                        <div className="bg-gradient-to-b from-white to-sky-300 bg-clip-text text-3xl font-black text-transparent">{v}</div>
+                        <div className="mt-1.5 text-[9px] font-bold uppercase tracking-[0.25em] text-sky-500/80">{l}</div>
                       </div>
                     ))}
                   </div>
@@ -339,11 +342,11 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => setActiveView('explore')}
-                    className="group relative mt-8 flex w-fit items-center gap-3 overflow-hidden rounded-full border border-sky-500/40 bg-sky-900/20 px-8 py-3.5 text-sky-200 shadow-[0_0_24px_-6px_rgba(56,189,248,0.35)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_46px_-4px_rgba(56,189,248,0.75)]"
+                    className="group relative mt-10 flex w-fit items-center gap-4 overflow-hidden rounded-full border border-sky-500/50 bg-sky-900/30 px-10 py-4 text-sky-100 shadow-[0_0_30px_-5px_rgba(56,189,248,0.4)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_50px_-5px_rgba(56,189,248,0.8)]"
                   >
-                    <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-sky-400/25 to-transparent transition-transform duration-[1100ms] ease-out group-hover:translate-x-full" />
-                    <span className="relative z-10 text-[11px] font-semibold uppercase tracking-[0.24em]">Explore Campus Verse</span>
-                    <ArrowRight size={14} className="relative z-10 transition-transform duration-500 group-hover:translate-x-1" />
+                    <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-sky-400/30 to-transparent transition-transform duration-[1100ms] ease-out group-hover:translate-x-full" />
+                    <span className="relative z-10 text-[12px] font-bold uppercase tracking-[0.25em]">Explore Campus Verse</span>
+                    <ArrowRight size={16} className="relative z-10 transition-transform duration-500 group-hover:translate-x-1.5" />
                   </motion.button>
                 </div>
 
