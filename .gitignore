@@ -30,3 +30,8 @@ dist-ssr
 # VITE_MEDIA_BASE_URL to serve them from a CDN in production.
 public/videos/
 public/about_bg.mp4
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
