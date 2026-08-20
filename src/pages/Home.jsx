@@ -40,6 +40,16 @@ function Home() {
 
   const containerRef = useRef(null);
   const touchLastY = useRef(0);
+  const activeViewRef = useRef(activeView);
+
+  useEffect(() => {
+    activeViewRef.current = activeView;
+    // The wheel listener below only drives scrollProgress on 'home'. Pin it to
+    // the end the instant a DOM panel takes over, so the headset is guaranteed
+    // fully dissolved and docked rather than wherever it happened to settle —
+    // otherwise scrolling inside the panel used to drag it back into frame.
+    if (activeView !== 'home') scrollProgress.set(1);
+  }, [activeView, scrollProgress]);
 
   // Update menuState specifically for the 2D UI overlay based on smooth scroll
   useMotionValueEvent(smoothScroll, "change", (latest) => {
@@ -92,6 +102,12 @@ function Home() {
     // attaches those passively, so preventDefault is ignored and the browser
     // still fires its own overscroll / swipe-to-go-back over the scrub.
     const onWheel = (e) => {
+      // Once a DOM panel (About/Explore) is open, this listener steps aside
+      // entirely: no preventDefault, no advance(). Previously it always fired,
+      // so scrolling inside a panel also dragged the headset back into frame
+      // behind it and blocked the panel's own overflow-y-auto from receiving
+      // wheel input at all.
+      if (activeViewRef.current !== 'home') return;
       e.preventDefault();
       // deltaMode 0 = pixels, 1 = lines, 2 = pages. Firefox mouse wheels report
       // lines while trackpads report pixels, so normalise before scaling —
@@ -106,6 +122,7 @@ function Home() {
 
     // Continuous, so the scene tracks the finger instead of jumping once on release.
     const onTouchMove = (e) => {
+      if (activeViewRef.current !== 'home') return;
       e.preventDefault();
       const yNow = e.touches[0].clientY;
       advance((touchLastY.current - yNow) * TOUCH_GAIN);
@@ -113,6 +130,7 @@ function Home() {
     };
 
     const onKeyDown = (e) => {
+      if (activeViewRef.current !== 'home') return;
       // Let the overlay's own controls keep their keyboard behaviour.
       if (e.target.closest && e.target.closest('button, a, input, textarea')) return;
       const jump = { ArrowDown: 420, PageDown: 1300, ' ': 1300, ArrowUp: -420, PageUp: -1300 }[e.key];
