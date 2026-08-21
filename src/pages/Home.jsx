@@ -184,9 +184,9 @@ function Home() {
       >
         {/* Vertical fade instead of a flat 20% tint — the letters sink into the
             background at the base rather than sitting on it as solid blocks. */}
-        <h1 className="flex flex-col items-center justify-center font-black tracking-[0.3em] sm:tracking-[0.15em] select-none leading-[0.85] text-transparent bg-clip-text bg-gradient-to-b from-sky-400/45 via-sky-500/25 to-sky-600/10 drop-shadow-[0_0_45px_rgba(56,189,248,0.18)] w-[115%] sm:w-auto overflow-visible">
-          <span className="text-[23vw] sm:text-[14vw] lg:text-[12vw] pl-[0.3em] text-center w-full">CAMPUS</span>
-          <span className="text-[23vw] sm:text-[14vw] lg:text-[12vw] pl-[0.3em] text-center w-full">VERSE</span>
+        <h1 className="flex flex-col items-center justify-center font-black tracking-[0.15em] sm:tracking-[0.15em] select-none leading-[0.8] text-transparent bg-clip-text bg-gradient-to-b from-sky-400/45 via-sky-500/25 to-sky-600/10 drop-shadow-[0_0_45px_rgba(56,189,248,0.18)] w-full overflow-visible transform scale-x-[1.1] sm:scale-x-100">
+          <span className="text-[32vw] sm:text-[14vw] lg:text-[12vw] pl-[0.15em] text-center w-full">CAMPUS</span>
+          <span className="text-[32vw] sm:text-[14vw] lg:text-[12vw] pl-[0.15em] text-center w-full">VERSE</span>
         </h1>
       </motion.div>
 
