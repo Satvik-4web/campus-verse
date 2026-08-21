@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Edges, Environment, Lightformer } from '@react-three/drei';
 import { EffectComposer, Bloom, Glitch, ChromaticAberration, Vignette } from '@react-three/postprocessing';
 import * as THREE from 'three';
@@ -179,12 +179,7 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
   const bodyRef = useRef();
   const fadePrepped = useRef(false);
   
-  const { viewport } = useThree();
   const { scene } = useGLTF('/meta-quest-3/source/Quest3.glb');
-
-  // Prevent headset from blowing up on narrow portrait kiosks by scaling
-  // down linearly when aspect ratio < 1.
-  const dynamicBaseScale = BASE_SCALE * Math.min(1, viewport.aspect * 1.3);
 
   const centeredModel = useMemo(() => {
     const cloned = scene.clone();
@@ -233,9 +228,15 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
       // frame for the panels instead of shrinking to nothing on the spot.
       const idleFloat = 0.5 + Math.sin(state.clock.elapsedTime * 1.5) * 0.1;
       const restY = THREE.MathUtils.lerp(idleFloat, 0, Math.min(p * 3, 1));
+      
+      // Responsive scaling: reduce size significantly on portrait screens (kiosks/mobile)
+      const aspect = state.viewport.width / state.viewport.height;
+      const scaleMultiplier = aspect < 1 ? 0.40 : 0.85;
+      const currentBaseScale = BASE_SCALE * scaleMultiplier;
+
       groupRef.current.position.y = THREE.MathUtils.lerp(restY, 1.05, handoff);
       groupRef.current.position.z = THREE.MathUtils.lerp(0, -3.4, handoff);
-      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(dynamicBaseScale, dynamicBaseScale * 0.62, handoff));
+      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(currentBaseScale, currentBaseScale * 0.62, handoff));
     }
 
     if (bodyRef.current) {
