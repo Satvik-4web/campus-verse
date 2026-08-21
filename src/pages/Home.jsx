@@ -178,15 +178,14 @@ function Home() {
           y: mouseYSpring,
           rotateX: rotateXSpring,
           rotateY: rotateYSpring,
-          opacity: bgOpacity,
-          transformStyle: 'preserve-3d'
+          opacity: bgOpacity
         }}
       >
         {/* Vertical fade instead of a flat 20% tint — the letters sink into the
             background at the base rather than sitting on it as solid blocks. */}
         <h1 className="flex flex-col items-center justify-center font-bold tracking-[0.15em] select-none leading-[0.85] text-transparent bg-clip-text bg-gradient-to-b from-sky-400/45 via-sky-500/25 to-sky-600/10 drop-shadow-[0_0_45px_rgba(56,189,248,0.18)]">
-          <span className="text-[14vw]">CAMPUS</span>
-          <span className="text-[14vw]">VERSE</span>
+          <span className="text-[24vw] md:text-[14vw]">CAMPUS</span>
+          <span className="text-[24vw] md:text-[14vw]">VERSE</span>
         </h1>
       </motion.div>
 
