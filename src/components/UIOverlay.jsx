@@ -305,7 +305,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                 {/* Two columns: the pitch on the left, the physical kiosk on the
                     right. It was two generic bento boxes stacked over a button,
                     which said little and showed nothing. */}
-                <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_0.85fr] lg:gap-12 mt-8 lg:mt-12">
+                <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 landscape:grid-cols-[1fr_0.85fr] landscape:gap-12 mt-8 lg:mt-12">
 
                   {/* Copy */}
                   <div className="flex flex-col">
@@ -344,16 +344,6 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                       ))}
                     </div>
 
-                    <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => setActiveView('explore')}
-                      className="group relative mt-6 flex w-fit items-center gap-3 overflow-hidden rounded-full border border-sky-500/50 bg-sky-900/30 px-8 py-3 text-sky-100 shadow-[0_0_30px_-5px_rgba(56,189,248,0.4)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_50px_-5px_rgba(56,189,248,0.8)]"
-                    >
-                      <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-sky-400/30 to-transparent transition-transform duration-[1100ms] ease-out group-hover:translate-x-full" />
-                      <span className="relative z-10 text-[11px] font-bold uppercase tracking-[0.25em]">Explore Campus Verse</span>
-                      <ArrowRight size={14} className="relative z-10 transition-transform duration-500 group-hover:translate-x-1" />
-                    </motion.button>
                   </div>
 
                   {/* The kiosk itself, on its lit plinth */}
@@ -375,6 +365,18 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                       </span>
                     </div>
                   </div>
+
+                  {/* Explore button placed at the very bottom on portrait */}
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setActiveView('explore')}
+                    className="landscape:col-span-2 group relative mt-2 flex w-full sm:w-auto items-center justify-center gap-3 overflow-hidden rounded-full border border-sky-500/50 bg-sky-900/30 px-8 py-4 text-sky-100 shadow-[0_0_30px_-5px_rgba(56,189,248,0.4)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_50px_-5px_rgba(56,189,248,0.8)] mx-auto"
+                  >
+                    <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-sky-400/30 to-transparent transition-transform duration-[1100ms] ease-out group-hover:translate-x-full" />
+                    <span className="relative z-10 text-[11px] font-bold uppercase tracking-[0.25em]">Explore Campus Verse</span>
+                    <ArrowRight size={14} className="relative z-10 transition-transform duration-500 group-hover:translate-x-1" />
+                  </motion.button>
                 </div>
 
                 {/* Premium Minimalist Footer */}
