@@ -229,9 +229,9 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
       const idleFloat = 0.5 + Math.sin(state.clock.elapsedTime * 1.5) * 0.1;
       const restY = THREE.MathUtils.lerp(idleFloat, 0, Math.min(p * 3, 1));
       
-      // Responsive scaling: reduce size significantly on portrait screens (kiosks/mobile)
+      // Responsive scaling: reduce size slightly on portrait screens (kiosks/mobile)
       const aspect = state.viewport.width / state.viewport.height;
-      const scaleMultiplier = aspect < 1 ? 0.40 : 0.85;
+      const scaleMultiplier = aspect < 1 ? 0.85 : 1.0;
       const currentBaseScale = BASE_SCALE * scaleMultiplier;
 
       groupRef.current.position.y = THREE.MathUtils.lerp(restY, 1.05, handoff);
