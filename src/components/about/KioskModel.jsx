@@ -191,7 +191,7 @@ const Kiosk = () => {
 
 const KioskScene = () => {
   const { viewport } = useThree();
-  const scale = viewport.width / viewport.height < 1 ? 1.4 : 1.0;
+  const scale = viewport.width / viewport.height < 1 ? 1.15 : 1.0;
 
   return (
     <>
