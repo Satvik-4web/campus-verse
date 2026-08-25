@@ -264,7 +264,7 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
 
       {/* The shell itself */}
       <group ref={bodyRef}>
-        <group scale={15}>
+        <group scale={20}>
           <RecursiveModel node={centeredModel} isWireframe={isTransitioning} />
         </group>
       </group>
