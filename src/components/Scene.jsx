@@ -231,7 +231,7 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
       
       // Responsive scaling: reduce size slightly on portrait screens (kiosks/mobile)
       const aspect = state.viewport.width / state.viewport.height;
-      const scaleMultiplier = aspect < 1 ? 0.85 : 1.0;
+      const scaleMultiplier = aspect < 1 ? 0.60 : 1.0;
       const currentBaseScale = BASE_SCALE * scaleMultiplier;
 
       groupRef.current.position.y = THREE.MathUtils.lerp(restY, 1.05, handoff);
