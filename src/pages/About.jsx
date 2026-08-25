@@ -134,7 +134,7 @@ const About = () => (
         whileInView="visible"
         viewport={{ once: true, amount: 0.15 }}
         transition={{ staggerChildren: 0.14 }}
-        className="mt-12 grid grid-cols-1 gap-8 sm:mt-16 lg:grid-cols-[1.05fr_1fr] lg:items-start lg:gap-12"
+        className="mt-12 grid grid-cols-1 gap-8 sm:mt-16 landscape:grid-cols-[1.05fr_1fr] landscape:items-start landscape:gap-12"
       >
         {/* Left column */}
         <div className="flex flex-col gap-6 sm:gap-8">
@@ -173,21 +173,6 @@ const About = () => (
               ))}
             </div>
           </Panel>
-
-          {/* Was a solid cyan block, which read as a stock form button next to
-              all this glass. Same pill language as the landing page now. */}
-          <motion.div variants={reveal}>
-            <Link
-              to="/dashboard"
-              className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-full border border-sky-500/40 bg-sky-900/20 px-8 py-4 text-sky-200 shadow-[0_0_24px_-6px_rgba(56,189,248,0.35)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_46px_-4px_rgba(56,189,248,0.75)]"
-            >
-              <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-sky-400/25 to-transparent transition-transform duration-[1100ms] ease-out group-hover:translate-x-full" />
-              <span className="relative z-10 text-[11px] font-semibold uppercase tracking-[0.28em]">
-                Explore dashboard
-              </span>
-              <ArrowRight size={14} className="relative z-10 transition-transform duration-500 group-hover:translate-x-1" />
-            </Link>
-          </motion.div>
         </div>
 
         {/* Right column — the kiosk is a model of the real, physically white
@@ -213,6 +198,20 @@ const About = () => (
               </span>
             </div>
           </div>
+        </motion.div>
+
+        {/* Explore button placed at the very bottom on portrait */}
+        <motion.div variants={reveal} className="landscape:col-span-2 mt-4 sm:mt-8">
+          <Link
+            to="/dashboard"
+            className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-full border border-sky-500/40 bg-sky-900/20 px-8 py-5 text-sky-200 shadow-[0_0_24px_-6px_rgba(56,189,248,0.35)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_46px_-4px_rgba(56,189,248,0.75)]"
+          >
+            <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-sky-400/25 to-transparent transition-transform duration-[1100ms] ease-out group-hover:translate-x-full" />
+            <span className="relative z-10 text-[12px] font-semibold uppercase tracking-[0.28em]">
+              Explore dashboard
+            </span>
+            <ArrowRight size={16} className="relative z-10 transition-transform duration-500 group-hover:translate-x-1" />
+          </Link>
         </motion.div>
       </motion.div>
     </div>
