@@ -150,7 +150,7 @@ const Faculty = () => {
 
       {/* Faculty Grid */}
       <main className="relative z-10 w-full max-w-[1500px] mx-auto px-12 pb-32 pt-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 landscape:md:grid-cols-2 landscape:lg:grid-cols-3 landscape:xl:grid-cols-4 portrait:sm:grid-cols-2 gap-8">
           {FACULTY_DATA.map((person, i) => (
             <FacultyCard key={i} person={person} index={i} />
           ))}

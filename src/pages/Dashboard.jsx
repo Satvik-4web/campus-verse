@@ -324,7 +324,7 @@ const Dashboard = () => {
       </header>
 
       <main className="relative z-10 mx-auto w-full max-w-[1400px] px-6 pb-28 pt-4 perspective-[2200px] sm:px-10">
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        <div className="grid grid-cols-1 gap-5 landscape:grid-cols-2 landscape:lg:grid-cols-3 landscape:gap-6">
           {CARDS_DATA.map((card, i) => (
             <motion.div
               key={card.id}
@@ -333,7 +333,7 @@ const Dashboard = () => {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.65, delay: Math.min(i, 4) * 0.07, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformStyle: 'preserve-3d' }}
-              className={i === 6 ? 'lg:col-start-2' : ''}
+              className={i === 6 ? 'landscape:lg:col-start-2' : ''}
             >
               <BentoCard card={card} meta={metaFor(card)} onClick={handleCardClick} />
             </motion.div>
@@ -384,7 +384,7 @@ const Dashboard = () => {
               {/* Body */}
               <div className="relative z-10 flex-1 overflow-y-auto px-7 py-7 sm:px-10">
                 {!activeTab ? (
-                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+                  <div className="grid grid-cols-1 gap-5 landscape:grid-cols-2 landscape:lg:grid-cols-4 portrait:sm:grid-cols-2">
                     {DEPARTMENTS_DATA.map((dept, index) => (
                       <motion.div
                         key={dept.id}

@@ -277,7 +277,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                 </span>
               </motion.div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6 lg:gap-8">
+              <div className="grid grid-cols-1 gap-4 landscape:sm:grid-cols-3 sm:gap-6 lg:gap-8">
                 {HUB.map((card, i) => (
                   <HubCard
                     key={card.id}
