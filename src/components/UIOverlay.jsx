@@ -305,10 +305,10 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                 {/* Two columns: the pitch on the left, the physical kiosk on the
                     right. It was two generic bento boxes stacked over a button,
                     which said little and showed nothing. */}
-                <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 landscape:grid-cols-[1fr_0.85fr] landscape:gap-12 mt-8 lg:mt-12">
+                <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 portrait:gap-12 landscape:grid-cols-[1fr_0.85fr] landscape:gap-12 mt-8 lg:mt-12">
 
                   {/* Copy */}
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-6 portrait:gap-6">
                     <span className="flex items-center gap-3">
                       <span className="h-px w-10 bg-gradient-to-r from-transparent to-sky-400" />
                       <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-sky-300 [text-shadow:_0_0_8px_rgb(56_189_248_/_50%)]">
@@ -316,28 +316,28 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                       </span>
                     </span>
 
-                    <h2 className="mt-3 bg-gradient-to-br from-white via-sky-100 to-sky-400 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent sm:text-5xl uppercase">
+                    <h2 className="mt-3 bg-gradient-to-br from-white via-sky-100 to-sky-400 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent sm:text-5xl portrait:text-7xl portrait:mt-6 uppercase">
                       ABOUT CAMPUS VERSE
                     </h2>
 
-                    <p className="mt-3 max-w-lg text-[14px] font-light leading-relaxed text-slate-300">
+                    <p className="mt-3 portrait:mt-6 max-w-lg text-[14px] portrait:text-[20px] font-light leading-relaxed text-slate-300">
                       A spatially accurate replica of the institute, streamed as geometry rather than
                       video — walkable from a browser, a phone, or the kiosk standing on campus.
                     </p>
 
-                    <div className="mt-5 flex flex-col gap-3">
+                    <div className="mt-5 portrait:mt-10 flex flex-col gap-3 portrait:gap-6">
                       {[
                         ['THE VISION', 'Immersive Spatial Computing', 'One model behind every tour, lab and event, so walking out of a hall puts you in the quad that actually adjoins it.'],
                         ['CORE TECHNOLOGY', 'Zero-Install WebGL', 'A React Three Fiber pipeline streams the twin straight to the browser — no download, no plugin, nothing to keep updated.'],
                       ].map(([eyebrow, title, body]) => (
-                        <div key={title} className="group relative overflow-hidden rounded-xl border border-white/[0.05] bg-white/[0.01] p-4 backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/[0.03]">
+                        <div key={title} className="group relative overflow-hidden rounded-xl border border-white/[0.05] bg-white/[0.01] p-4 portrait:p-8 backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/[0.03]">
                           <div className="absolute -inset-px bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-sky-500/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-                          <div className="relative z-10 flex gap-4">
-                            <span className="mt-1.5 h-2 w-2 shrink-0 rotate-45 bg-sky-400 shadow-[0_0_12px_#38bdf8] animate-pulse" />
+                          <div className="relative z-10 flex gap-4 portrait:gap-6">
+                            <span className="mt-1.5 h-2 w-2 portrait:h-3 portrait:w-3 shrink-0 rotate-45 bg-sky-400 shadow-[0_0_12px_#38bdf8] animate-pulse" />
                             <div className="min-w-0">
-                              <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-sky-400/90">{eyebrow}</div>
-                              <h3 className="mt-1 text-lg font-bold tracking-wide text-white transition-colors duration-300 group-hover:text-sky-200">{title}</h3>
-                              <p className="mt-1.5 text-[13px] font-light leading-relaxed text-slate-400">{body}</p>
+                              <div className="text-[10px] portrait:text-[14px] font-bold uppercase tracking-[0.25em] text-sky-400/90">{eyebrow}</div>
+                              <h3 className="mt-1 portrait:mt-2 text-lg portrait:text-3xl font-bold tracking-wide text-white transition-colors duration-300 group-hover:text-sky-200">{title}</h3>
+                              <p className="mt-1.5 portrait:mt-4 text-[13px] portrait:text-[18px] font-light leading-relaxed text-slate-400">{body}</p>
                             </div>
                           </div>
                         </div>
@@ -347,20 +347,20 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                   </div>
 
                   {/* The kiosk itself, on its lit plinth */}
-                  <div className="relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent backdrop-blur-xl">
+                  <div className="relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent backdrop-blur-xl mt-4 portrait:mt-8">
                     <span className="pointer-events-none absolute inset-x-16 top-0 h-px bg-gradient-to-r from-transparent via-sky-300/50 to-transparent" />
                     <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_58%,rgba(56,189,248,0.16),transparent_70%)]" />
 
-                    <div className="relative h-[300px] w-full sm:h-[380px] lg:h-[440px]">
+                    <div className="relative h-[300px] w-full sm:h-[380px] lg:h-[440px] portrait:h-[750px]">
                       <KioskModel />
                     </div>
 
-                    <div className="relative z-10 flex items-center justify-between border-t border-white/[0.06] px-5 py-3">
-                      <span className="text-[9px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                    <div className="relative z-10 flex items-center justify-between border-t border-white/[0.06] px-5 py-3 portrait:py-5">
+                      <span className="text-[9px] font-semibold uppercase tracking-[0.24em] text-slate-500 portrait:text-[11px]">
                         Campus Verse kiosk
                       </span>
-                      <span className="flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.22em] text-sky-300/70">
-                        <span className="h-1 w-1 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]" />
+                      <span className="flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.22em] text-sky-300/70 portrait:text-[10px]">
+                        <span className="h-1 w-1 portrait:h-1.5 portrait:w-1.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]" />
                         Drag to inspect
                       </span>
                     </div>
@@ -371,7 +371,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => setActiveView('explore')}
-                    className="landscape:col-span-2 group relative mt-2 flex w-full sm:w-auto items-center justify-center gap-3 overflow-hidden rounded-full border border-sky-500/50 bg-sky-900/30 px-8 py-4 text-sky-100 shadow-[0_0_30px_-5px_rgba(56,189,248,0.4)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_50px_-5px_rgba(56,189,248,0.8)] mx-auto"
+                    className="landscape:col-span-2 group relative mt-2 portrait:mt-8 flex w-full sm:w-auto items-center justify-center gap-3 overflow-hidden rounded-full border border-sky-500/50 bg-sky-900/30 px-8 py-4 portrait:py-6 text-sky-100 shadow-[0_0_30px_-5px_rgba(56,189,248,0.4)] transition-shadow duration-500 hover:text-white hover:shadow-[0_0_50px_-5px_rgba(56,189,248,0.8)] mx-auto"
                   >
                     <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-sky-400/30 to-transparent transition-transform duration-[1100ms] ease-out group-hover:translate-x-full" />
                     <span className="relative z-10 text-[11px] font-bold uppercase tracking-[0.25em]">Explore Campus Verse</span>

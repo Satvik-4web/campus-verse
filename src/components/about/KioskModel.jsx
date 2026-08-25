@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, RoundedBox, Float, ContactShadows, Lightformer } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
@@ -189,9 +189,12 @@ const Kiosk = () => {
   );
 };
 
-const KioskModel = () => (
-  <div className="h-full w-full">
-    <Canvas camera={{ position: [3.6, 3.6, 6.2], fov: 42 }} gl={{ alpha: true, antialias: true }}>
+const KioskScene = () => {
+  const { viewport } = useThree();
+  const scale = viewport.width / viewport.height < 1 ? 1.4 : 1.0;
+
+  return (
+    <>
       <ambientLight intensity={0.55} />
       <directionalLight position={[4, 8, 6]} intensity={1.6} />
       <directionalLight position={[-6, 4, 2]} intensity={0.5} color="#9ecbff" />
@@ -203,19 +206,17 @@ const KioskModel = () => (
       </Environment>
 
       <Float speed={1.6} rotationIntensity={0.12} floatIntensity={0.35} floatingRange={[-0.06, 0.06]}>
-        <group position={[0, -2.6, 0]}>
+        <group position={[0, -2.6 * scale, 0]} scale={scale}>
           <Kiosk />
         </group>
       </Float>
 
-      <ContactShadows position={[0, -2.6, 0]} opacity={0.5} scale={12} blur={2.6} far={5} color="#000" />
+      <ContactShadows position={[0, -2.6 * scale, 0]} opacity={0.5} scale={12 * scale} blur={2.6} far={5} color="#000" />
 
       <EffectComposer disableNormalPass>
         <Bloom luminanceThreshold={1} mipmapBlur intensity={1.1} />
       </EffectComposer>
 
-      {/* Drag stays on the branded faces; a full turn would park the camera
-          behind the unit's blank back. */}
       <OrbitControls
         enableZoom={false}
         enablePan={false}
@@ -224,6 +225,14 @@ const KioskModel = () => (
         minAzimuthAngle={-0.7}
         maxAzimuthAngle={0.7}
       />
+    </>
+  );
+};
+
+const KioskModel = () => (
+  <div className="h-full w-full">
+    <Canvas camera={{ position: [3.6, 3.6, 6.2], fov: 42 }} gl={{ alpha: true, antialias: true }}>
+      <KioskScene />
     </Canvas>
   </div>
 );
