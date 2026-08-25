@@ -316,11 +316,11 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                       </span>
                     </span>
 
-                    <h2 className="mt-3 bg-gradient-to-br from-white via-sky-100 to-sky-400 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent sm:text-5xl uppercase">
+                    <h2 className="mt-2 bg-gradient-to-b from-white via-sky-200 to-sky-500 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] sm:text-5xl uppercase">
                       ABOUT CAMPUS VERSE
                     </h2>
 
-                    <p className="mt-3 max-w-lg text-[14px] portrait:text-[16px] font-light leading-relaxed text-slate-300">
+                    <p className="mt-4 max-w-xl text-[15px] font-normal leading-relaxed text-sky-100/90 tracking-wide">
                       A spatially accurate replica of the institute, streamed as geometry rather than
                       video — walkable from a browser, a phone, or the kiosk standing on campus.
                     </p>
