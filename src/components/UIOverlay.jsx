@@ -316,11 +316,11 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                       </span>
                     </span>
 
-                    <h2 className="mt-3 bg-gradient-to-br from-white via-sky-100 to-sky-400 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent sm:text-5xl portrait:text-7xl portrait:mt-6 uppercase">
+                    <h2 className="mt-3 bg-gradient-to-br from-white via-sky-100 to-sky-400 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent sm:text-5xl portrait:text-6xl portrait:mt-6 uppercase">
                       ABOUT CAMPUS VERSE
                     </h2>
 
-                    <p className="mt-3 portrait:mt-6 max-w-lg text-[14px] portrait:text-[20px] font-light leading-relaxed text-slate-300">
+                    <p className="mt-3 portrait:mt-6 max-w-lg text-[14px] portrait:text-[16px] font-light leading-relaxed text-slate-300">
                       A spatially accurate replica of the institute, streamed as geometry rather than
                       video — walkable from a browser, a phone, or the kiosk standing on campus.
                     </p>
@@ -330,14 +330,14 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                         ['THE VISION', 'Immersive Spatial Computing', 'One model behind every tour, lab and event, so walking out of a hall puts you in the quad that actually adjoins it.'],
                         ['CORE TECHNOLOGY', 'Zero-Install WebGL', 'A React Three Fiber pipeline streams the twin straight to the browser — no download, no plugin, nothing to keep updated.'],
                       ].map(([eyebrow, title, body]) => (
-                        <div key={title} className="group relative overflow-hidden rounded-xl border border-white/[0.05] bg-white/[0.01] p-4 portrait:p-8 backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/[0.03]">
+                        <div key={title} className="group relative overflow-hidden rounded-xl border border-white/[0.05] bg-white/[0.01] p-4 portrait:p-6 backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/[0.03]">
                           <div className="absolute -inset-px bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-sky-500/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-                          <div className="relative z-10 flex gap-4 portrait:gap-6">
-                            <span className="mt-1.5 h-2 w-2 portrait:h-3 portrait:w-3 shrink-0 rotate-45 bg-sky-400 shadow-[0_0_12px_#38bdf8] animate-pulse" />
+                          <div className="relative z-10 flex gap-4 portrait:gap-5">
+                            <span className="mt-1.5 h-2 w-2 portrait:h-2.5 portrait:w-2.5 shrink-0 rotate-45 bg-sky-400 shadow-[0_0_12px_#38bdf8] animate-pulse" />
                             <div className="min-w-0">
-                              <div className="text-[10px] portrait:text-[14px] font-bold uppercase tracking-[0.25em] text-sky-400/90">{eyebrow}</div>
-                              <h3 className="mt-1 portrait:mt-2 text-lg portrait:text-3xl font-bold tracking-wide text-white transition-colors duration-300 group-hover:text-sky-200">{title}</h3>
-                              <p className="mt-1.5 portrait:mt-4 text-[13px] portrait:text-[18px] font-light leading-relaxed text-slate-400">{body}</p>
+                              <div className="text-[10px] portrait:text-[11px] font-bold uppercase tracking-[0.25em] text-sky-400/90">{eyebrow}</div>
+                              <h3 className="mt-1 portrait:mt-2 text-lg portrait:text-xl font-bold tracking-wide text-white transition-colors duration-300 group-hover:text-sky-200">{title}</h3>
+                              <p className="mt-1.5 portrait:mt-2 text-[13px] portrait:text-[14px] font-light leading-relaxed text-slate-400">{body}</p>
                             </div>
                           </div>
                         </div>
