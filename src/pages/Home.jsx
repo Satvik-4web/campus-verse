@@ -7,13 +7,6 @@ import { DriftKeyframes, DriftBlob, Starfield } from '../components/AmbientField
 
 const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 
-// Tuned against real hardware: ~22 mouse notches walks the whole sequence, so
-// the cinematic has room to breathe instead of being over in a flick.
-const SCROLL_SPEED = 0.00046;
-// Per-event ceiling. A violent trackpad flick fires huge deltas and used to
-// teleport past the whole animation in one frame.
-const MAX_STEP = 0.046;
-const TOUCH_GAIN = 3.6;
 
 function Home() {
   const x = useMotionValue(0);
@@ -89,9 +82,13 @@ function Home() {
   };
 
   /** Single clamped, device-normalised way to advance the sequence. */
-  const advance = useCallback((deltaPx) => {
-    const step = clamp(deltaPx * SCROLL_SPEED, -MAX_STEP, MAX_STEP);
-    scrollProgress.set(clamp(scrollProgress.get() + step, 0, 1));
+  const triggerTransition = useCallback((direction) => {
+    // direction > 0 means forward (enter), direction < 0 means backward (exit)
+    if (direction > 0) {
+      scrollProgress.set(1);
+    } else if (direction < 0) {
+      scrollProgress.set(0);
+    }
   }, [scrollProgress]);
 
   useEffect(() => {
@@ -103,40 +100,48 @@ function Home() {
     // still fires its own overscroll / swipe-to-go-back over the scrub.
     const onWheel = (e) => {
       // Once a DOM panel (About/Explore) is open, this listener steps aside
-      // entirely: no preventDefault, no advance(). Previously it always fired,
-      // so scrolling inside a panel also dragged the headset back into frame
-      // behind it and blocked the panel's own overflow-y-auto from receiving
-      // wheel input at all.
+      // entirely: no preventDefault.
       if (activeViewRef.current !== 'home') return;
       e.preventDefault();
-      // deltaMode 0 = pixels, 1 = lines, 2 = pages. Firefox mouse wheels report
-      // lines while trackpads report pixels, so normalise before scaling —
-      // otherwise the same gesture moves ~16x further on one browser.
-      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
-      advance(e.deltaY * unit);
+      
+      // Threshold to prevent accidental tiny scrolls
+      if (e.deltaY > 20) {
+        triggerTransition(1);
+      } else if (e.deltaY < -20) {
+        triggerTransition(-1);
+      }
     };
 
     const onTouchStart = (e) => {
       touchLastY.current = e.touches[0].clientY;
     };
 
-    // Continuous, so the scene tracks the finger instead of jumping once on release.
+    // Trigger full transition on a clear swipe
     const onTouchMove = (e) => {
       if (activeViewRef.current !== 'home') return;
       e.preventDefault();
       const yNow = e.touches[0].clientY;
-      advance((touchLastY.current - yNow) * TOUCH_GAIN);
-      touchLastY.current = yNow;
+      const delta = touchLastY.current - yNow;
+      
+      // Require a 40px swipe to trigger to avoid accidental touches
+      if (delta > 40) {
+        triggerTransition(1);
+      } else if (delta < -40) {
+        triggerTransition(-1);
+      }
     };
 
     const onKeyDown = (e) => {
       if (activeViewRef.current !== 'home') return;
       // Let the overlay's own controls keep their keyboard behaviour.
       if (e.target.closest && e.target.closest('button, a, input, textarea')) return;
-      const jump = { ArrowDown: 420, PageDown: 1300, ' ': 1300, ArrowUp: -420, PageUp: -1300 }[e.key];
-      if (jump !== undefined) {
+      
+      if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
         e.preventDefault();
-        advance(jump);
+        triggerTransition(1);
+      } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+        e.preventDefault();
+        triggerTransition(-1);
       } else if (e.key === 'Home') {
         scrollProgress.set(0);
       } else if (e.key === 'End') {
