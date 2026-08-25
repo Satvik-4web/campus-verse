@@ -381,14 +381,14 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
 
                 {/* Premium Minimalist Footer */}
                 <footer className="w-full mt-16 py-6 border-t border-white/[0.05] bg-slate-950/20 backdrop-blur-sm relative z-10">
-                  <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                  <div className="max-w-7xl mx-auto px-6 flex flex-col landscape:md:flex-row items-center justify-between gap-4">
                     {/* Left Section (Branding & Copyright) */}
                     <span className="text-slate-500 text-sm font-light tracking-wide select-none">
                       © 2026 Campus Verse. All rights reserved.
                     </span>
 
                     {/* Right Section (Professional Navigation & Team Link) */}
-                    <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 text-sm font-medium text-slate-400">
+                    <div className="flex flex-wrap justify-center items-center gap-6 landscape:md:gap-8 text-sm font-medium text-slate-400">
                       <motion.button whileTap={{ scale: 0.96 }} className="py-2 px-1 transition-colors duration-300 hover:text-sky-400">
                         Privacy Policy
                       </motion.button>
@@ -414,7 +414,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                   hidden: { opacity: 0 },
                   visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
                 }}
-                className="absolute inset-0 flex flex-col items-center justify-center gap-6 pointer-events-auto md:flex-row md:gap-10"
+                className="absolute inset-0 flex flex-col items-center justify-center gap-6 pointer-events-auto landscape:md:flex-row landscape:md:gap-10"
               >
                 {[
                   { key: 'tours', Icon: Map, top: 'CAMPUS', bottom: 'TOURS' },
@@ -427,7 +427,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                       visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } }
                     }}
                     whileTap={{ scale: 0.96 }}
-                    className="relative bg-white/[0.03] p-10 rounded-[2.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_0_50px_rgba(56,189,248,0.4)] border border-white/10 border-t-white/20 border-l-white/20 hover:border-[#38bdf8]/40 backdrop-blur-2xl flex flex-col items-center justify-center w-[300px] h-[300px] md:w-[320px] md:h-[360px] transition-all duration-700 overflow-hidden cursor-pointer group"
+                    className="relative bg-white/[0.03] p-10 rounded-[2.5rem] shadow-[0_20px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_0_50px_rgba(56,189,248,0.4)] border border-white/10 border-t-white/20 border-l-white/20 hover:border-[#38bdf8]/40 backdrop-blur-2xl flex flex-col items-center justify-center w-[300px] h-[300px] landscape:md:w-[320px] landscape:md:h-[360px] transition-all duration-700 overflow-hidden cursor-pointer group"
                     onClick={() => {
                       if (key === 'tours') {
                         launchCampusTours();
