@@ -231,10 +231,14 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
       
       // Responsive scaling: reduce size significantly on portrait screens (kiosks/mobile)
       const aspect = state.viewport.width / state.viewport.height;
-      const scaleMultiplier = aspect < 1 ? 0.40 : 0.85;
+      const isPortrait = aspect < 1;
+      const scaleMultiplier = isPortrait ? 0.40 : 0.85;
       const currentBaseScale = BASE_SCALE * scaleMultiplier;
+      
+      // Shift it down on portrait so it sits below the CAMPUS VERSE text
+      const yOffset = isPortrait ? -1.5 : 0;
 
-      groupRef.current.position.y = THREE.MathUtils.lerp(restY, 1.05, handoff);
+      groupRef.current.position.y = THREE.MathUtils.lerp(restY + yOffset, 1.05, handoff);
       groupRef.current.position.z = THREE.MathUtils.lerp(0, -3.4, handoff);
       groupRef.current.scale.setScalar(THREE.MathUtils.lerp(currentBaseScale, currentBaseScale * 0.62, handoff));
     }
