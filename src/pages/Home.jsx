@@ -159,7 +159,7 @@ function Home() {
       el.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [advance, scrollProgress]);
+  }, [triggerTransition, scrollProgress]);
 
   return (
     <div
