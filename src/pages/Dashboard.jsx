@@ -53,7 +53,7 @@ const BentoCard = ({ card, meta, onClick }) => {
       onClick={() => onClick(card)}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d', '--accent': card.color }}
       whileHover={{ scale: 1.015, transition: { duration: 0.4 } }}
-      className={`group relative flex h-[270px] w-full cursor-pointer sm:h-[300px] flex-col overflow-hidden rounded-[22px] border border-white/10 bg-[rgba(9,14,28,0.65)] text-left shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)] backdrop-blur-2xl transition-colors duration-500 hover:border-[var(--accent)]/45`}
+      className={`group relative flex h-[360px] w-full cursor-pointer flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[rgba(9,14,28,0.65)] text-left shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)] backdrop-blur-2xl transition-colors duration-500 hover:border-[var(--accent)]/45 sm:h-[480px] md:h-[560px]`}
     >
       <motion.div className="pointer-events-none absolute inset-0 z-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ background: specular }} />
 
@@ -80,7 +80,7 @@ const BentoCard = ({ card, meta, onClick }) => {
         </div>
 
         <div className="flex items-end justify-between gap-4">
-          <h3 className="text-2xl font-bold tracking-tight text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.85)] sm:text-[28px]">
+          <h3 className="text-3xl font-black tracking-tight text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.85)] sm:text-[38px]">
             {card.title}
           </h3>
           {/* One small affordance instead of a full-width EXPLORE bar on every
@@ -323,17 +323,18 @@ const Dashboard = () => {
 
       </header>
 
-      <main className="relative z-10 mx-auto w-full max-w-[1400px] px-6 pb-28 pt-4 perspective-[2200px] sm:px-10">
-        <div className="grid grid-cols-1 gap-5 landscape:grid-cols-2 landscape:lg:grid-cols-3 landscape:gap-6">
+      <main className="relative z-10 mx-auto w-full px-0 pb-28 pt-4 perspective-[2200px]">
+        {/* Horizontal scroll container */}
+        <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-6 pb-8 pt-4 sm:gap-8 sm:px-10 [&::-webkit-scrollbar]:hidden">
           {CARDS_DATA.map((card, i) => (
             <motion.div
               key={card.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.65, delay: Math.min(i, 4) * 0.07, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformStyle: 'preserve-3d' }}
-              className={i === 6 ? 'landscape:lg:col-start-2' : ''}
+              className="w-[300px] shrink-0 snap-center sm:w-[380px] md:w-[450px]"
             >
               <BentoCard card={card} meta={metaFor(card)} onClick={handleCardClick} />
             </motion.div>
