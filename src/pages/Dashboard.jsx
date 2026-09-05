@@ -325,7 +325,7 @@ const Dashboard = () => {
 
       <main className="relative z-10 mx-auto w-full px-0 pb-28 pt-4 perspective-[2200px]">
         {/* Horizontal scroll container */}
-        <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-6 pb-8 pt-4 sm:gap-8 sm:px-10 [&::-webkit-scrollbar]:hidden">
+        <div className="flex w-full snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth px-10 pb-12 pt-4 [&::-webkit-scrollbar]:hidden">
           {CARDS_DATA.map((card, i) => (
             <motion.div
               key={card.id}
@@ -334,7 +334,7 @@ const Dashboard = () => {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformStyle: 'preserve-3d' }}
-              className="w-[300px] shrink-0 snap-center sm:w-[380px] md:w-[450px]"
+              className="w-[85vw] shrink-0 snap-center sm:w-[75vw] md:w-[600px]"
             >
               <BentoCard card={card} meta={metaFor(card)} onClick={handleCardClick} />
             </motion.div>
