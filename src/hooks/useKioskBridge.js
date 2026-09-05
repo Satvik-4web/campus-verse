@@ -85,11 +85,29 @@ export function useKioskBridge() {
     }
   }, []);
 
+  const launchVRGame = useCallback((packageName) => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      console.log(`[Kiosk Bridge] Triggering VR Game: ${packageName}`);
+      setIsVRLoading(true);
+      setVrError(null);
+      wsRef.current.send(JSON.stringify({
+        event: 'LAUNCH_GAME',
+        package: packageName
+      }));
+    } else {
+      console.error('[Kiosk Bridge] Cannot trigger: WebSocket not connected.');
+      setIsVRLoading(true);
+      setVrError('Bridge Server disconnected. Ensure Node is running.');
+      setTimeout(() => setIsVRLoading(false), 5000);
+    }
+  }, []);
+
   return {
     isConnected,
     isVRLoading,
     vrError,
     launchCampusTours,
+    launchVRGame,
     setIsVRLoading
   };
 }
