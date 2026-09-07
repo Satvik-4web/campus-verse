@@ -305,7 +305,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                 <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 landscape:grid-cols-[1fr_0.85fr] landscape:gap-12 mt-8 lg:mt-12">
 
                   {/* Copy */}
-                  <div className="flex flex-col gap-6 sm:gap-8">
+                  <div className="flex flex-col gap-4 sm:gap-5">
                     <span className="flex items-center gap-3">
                       <span className="h-px w-10 bg-gradient-to-r from-transparent to-sky-400" />
                       <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-sky-300 [text-shadow:_0_0_8px_rgb(56_189_248_/_50%)]">
@@ -313,28 +313,28 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                       </span>
                     </span>
 
-                    <h2 className="mt-2 bg-gradient-to-b from-white via-sky-200 to-sky-500 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] sm:text-5xl uppercase">
+                    <h2 className="mt-1 bg-gradient-to-b from-white via-sky-200 to-sky-500 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] sm:text-5xl uppercase">
                       ABOUT CAMPUS VERSE
                     </h2>
 
-                    <p className="mt-4 max-w-xl text-[15px] font-normal leading-relaxed text-sky-100/90 tracking-wide">
+                    <p className="mt-1 max-w-xl text-[14px] font-normal leading-relaxed text-sky-100/90 tracking-wide">
                       Bringing ELC beyond the physical campus. A digital and immersive platform designed to showcase the work, projects, and learning experiences taking place within the Experiential Learning Centre.
                     </p>
 
-                    <div className="mt-5 flex flex-col gap-3">
+                    <div className="mt-2 flex flex-col gap-2">
                       {[
                         ['EXPLORE', 'Discover ELC Projects', 'Explore student-driven projects that combine engineering knowledge and creativity—understanding how they work, the technologies used, and real-world applications.'],
                         ['EXPERIENCE', 'Step Inside With VR', 'Don\'t just see the lab, step inside it. Using Meta Quest VR, enter immersive digital replicas of ELC labs to interact with equipment and processes.'],
                         ['VISION', 'Interactive Learning', 'Creating a connected ecosystem where physical labs, digital platforms, and immersive tech come together to make learning more engaging and accessible.'],
                       ].map(([eyebrow, title, body]) => (
-                        <div key={title} className="group relative overflow-hidden rounded-xl border border-white/[0.05] bg-white/[0.01] p-4 backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/[0.03]">
+                        <div key={title} className="group relative overflow-hidden rounded-xl border border-white/[0.05] bg-white/[0.01] p-3 backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/[0.03]">
                           <div className="absolute -inset-px bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-sky-500/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
                           <div className="relative z-10 flex gap-4">
                             <span className="mt-1.5 h-2 w-2 shrink-0 rotate-45 bg-sky-400 shadow-[0_0_12px_#38bdf8] animate-pulse" />
                             <div className="min-w-0">
                               <div className="text-[10px] portrait:text-[11px] font-bold uppercase tracking-[0.25em] text-sky-400/90">{eyebrow}</div>
-                              <h3 className="mt-1 text-lg portrait:text-xl font-bold tracking-wide text-white transition-colors duration-300 group-hover:text-sky-200">{title}</h3>
-                              <p className="mt-1.5 text-[13px] portrait:text-[14px] font-light leading-relaxed text-slate-400">{body}</p>
+                              <h3 className="text-base portrait:text-lg font-bold tracking-wide text-white transition-colors duration-300 group-hover:text-sky-200">{title}</h3>
+                              <p className="mt-1 text-[12px] portrait:text-[13px] font-light leading-relaxed text-slate-400">{body}</p>
                             </div>
                           </div>
                         </div>
@@ -535,6 +535,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
 };
 
 export default UIOverlay;
+
 
 
 
