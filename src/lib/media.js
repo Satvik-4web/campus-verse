@@ -12,11 +12,12 @@
  * Only videos are rerouted. Images are small enough to stay in the repo, so
  * they keep resolving locally either way.
  */
-export const MEDIA_BASE = import.meta.env.VITE_MEDIA_BASE_URL ?? '';
+export const MEDIA_BASE = import.meta.env.VITE_MEDIA_BASE_URL || 'https://cnckzaybkmlcfxnhvrmp.supabase.co/storage/v1/object/public/kiosk-media';
 
 export const media = (path) => {
     if (!path.endsWith('.mp4')) return path;
     const cleanPath = path.startsWith('/videos/') ? path.slice(7) : path;
     return `${MEDIA_BASE}${cleanPath}`;
 };
+
 
