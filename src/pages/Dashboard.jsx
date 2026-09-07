@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+﻿import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Film, ImageIcon, Play, X } from 'lucide-react';
 import InteractiveBackground from '../components/dashboard/InteractiveBackground';
 import { media } from '../lib/media';
 
-/** One ramp for the whole page — it used to mix electric blue, purple and magenta. */
+/** One ramp for the whole page â€” it used to mix electric blue, purple and magenta. */
 const SKY = '#38bdf8';
 const BLUE = '#3b82f6';
 const CYAN = '#67e8f9';
@@ -27,7 +27,7 @@ const BentoCard = ({ card, meta, onClick }) => {
   const x = useSpring(0, { stiffness: 260, damping: 30 });
   const y = useSpring(0, { stiffness: 260, damping: 30 });
 
-  // Restrained tilt. The original ±25deg sheared the artwork at the corners.
+  // Restrained tilt. The original Â±25deg sheared the artwork at the corners.
   const rotateX = useTransform(y, [-0.5, 0.5], ['5deg', '-5deg']);
   const rotateY = useTransform(x, [-0.5, 0.5], ['-5deg', '5deg']);
   const imgX = useTransform(x, [-0.5, 0.5], ['-2.5%', '2.5%']);
@@ -59,7 +59,7 @@ const BentoCard = ({ card, meta, onClick }) => {
 
       <motion.div className="absolute inset-[-5%] h-[110%] w-[110%]" style={{ x: imgX, y: imgY }}>
         {/* Lightly desaturated and darkened so seven unrelated photos sit
-            together, with a scrim carrying the type. No hue blend — that was
+            together, with a scrim carrying the type. No hue blend â€” that was
             forcing skin tones to navy. */}
         <img
           src={card.image}
@@ -84,7 +84,7 @@ const BentoCard = ({ card, meta, onClick }) => {
             {card.title}
           </h3>
           {/* One small affordance instead of a full-width EXPLORE bar on every
-              tile — seven of those was most of the visual noise. */}
+              tile â€” seven of those was most of the visual noise. */}
           <span
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-md transition-all duration-500 group-hover:border-transparent group-hover:bg-[var(--accent)]"
           >
@@ -107,35 +107,28 @@ const DEPARTMENTS_DATA = [
 ];
 
 const DEPARTMENT_VIDEOS = {
-  'Electronics & Comm': [
-    { title: 'Project 21', url: media('/videos/ece/Copy of 21.mp4') },
-    { title: 'Fasal Kavach', url: media('/videos/ece/Copy of 25_fasal_kavach_video.mp4') },
-    { title: 'Project 31', url: media('/videos/ece/Copy of 31_video.mp4') },
-    { title: 'Project 32G', url: media('/videos/ece/Copy of 32_g_VIDEO.mp4') },
-    { title: 'Project 46', url: media('/videos/ece/Copy of 46_video.mp4') },
-    { title: 'Project 47', url: media('/videos/ece/Copy of 47 video.mp4') },
-    { title: 'Project 50', url: media('/videos/ece/Copy of 50_video.mp4') },
-    { title: 'Project 51B', url: media('/videos/ece/Copy of 51B.mp4') },
-    { title: 'Project 54', url: media('/videos/ece/Copy of 54_Video.mp4') },
-  ],
-  Startups: [{ title: 'Startup Showcase', url: media('/videos/startups/startup_video.mp4') }],
-  'Campus Tours': [
-    { title: 'Virtual Tour 1', url: media('/videos/campus_tours/Website_videos(3).mp4') },
-    { title: 'Virtual Tour 2', url: media('/videos/campus_tours/Website_videos(4).mp4') },
-    { title: 'Virtual Tour 3', url: media('/videos/campus_tours/Website_videos(5).mp4') },
-    { title: 'Virtual Tour 4', url: media('/videos/campus_tours/Website_videos(6).mp4') },
-  ],
   'ELC Projects': [
-    { title: 'Project Image 2', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.17 PM.jpeg' },
-    { title: 'Project Image 3', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.18 PM (1).jpeg' },
-    { title: 'Project Image 4', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.18 PM (2).jpeg' },
-    { title: 'Project Image 5', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.18 PM.jpeg' },
-    { title: 'Project Image 6', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.19 PM (1).jpeg' },
-    { title: 'Project Image 7', url: '/images/elc_projects/WhatsApp Image 2026-08-07 at 12.24.19 PM.jpeg' },
+    { title: 'Fasal Kavach', url: media('/videos/ece/Copy of 25_fasal_kavach_video.mp4') },
+    { title: 'Project 46', url: media('/videos/ece/Copy of 46_video.mp4') },
+    { title: 'Project 50', url: media('/videos/ece/Copy of 50_video.mp4') },
+    { title: 'Project 32G', url: media('/videos/ece/Copy of 32_g_VIDEO.mp4') },
   ],
-  Resources: [
+  'Campus Tours': [
+    { title: 'Tour 1', url: media('/videos/campus_tours/Website_videos(3).mp4') },
+    { title: 'Tour 2', url: media('/videos/campus_tours/Website_videos(4).mp4') },
+    { title: 'Tour 3', url: media('/videos/campus_tours/Website_videos(5).mp4') },
+    { title: 'Tour 4', url: media('/videos/campus_tours/Website_videos(6).mp4') },
+  ],
+  'Startups': [
+    { title: 'Startup Story', url: media('/videos/startups/startup_video.mp4') },
+  ],
+  'Resources': [
     { title: 'Bajaj Centre', url: media('/videos/resources/BajajCentre_1.mp4') },
-    { title: 'Virtual Tour (Resources)', url: media('/videos/resources/Website_videos(3).mp4') },
+    { title: 'Facilities', url: media('/videos/resources/Website_videos(3).mp4') },
+  ],
+  'Branchwise ELC': [
+    { title: 'Branch Intro', url: media('/videos/ece/Copy of 47 video.mp4') },
+    { title: 'Overview', url: media('/videos/ece/Copy of 51B.mp4') },
   ],
 };
 
@@ -363,7 +356,7 @@ const Dashboard = () => {
               <div className="relative z-10 flex shrink-0 items-start justify-between gap-6 border-b border-white/[0.06] px-7 py-6 sm:px-10">
                 <div className="flex min-w-0 flex-col gap-1">
                   {/* Stepped into a department, the eyebrow names the collection
-                      you came from — repeating the department in both lines
+                      you came from â€” repeating the department in both lines
                       told you nothing. */}
                   <span className="text-[10px] font-bold uppercase tracking-[0.34em]" style={{ color: selectedCard.color }}>
                     {canStepBack ? selectedCard.title : selectedCard.subtitle}
@@ -399,7 +392,7 @@ const Dashboard = () => {
                 ) : (
                   <div className="flex w-full flex-col">
                     {/* Stage. The fake progress bar, "NO SIGNAL DETECTED" and
-                        "SECURE LINK 01" chrome are gone — they dressed up an
+                        "SECURE LINK 01" chrome are gone â€” they dressed up an
                         empty state as a malfunction. */}
                     <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-[20px] border border-white/10 bg-black shadow-2xl">
                       {activeVideo ? (
@@ -460,3 +453,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
