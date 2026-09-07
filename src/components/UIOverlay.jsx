@@ -94,8 +94,8 @@ const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
       style={{ opacity, y, scale, filter, '--accent': card.accent, pointerEvents: interactive ? 'auto' : 'none' }}
       className={`group relative flex h-[104px] w-full flex-row items-center gap-5 overflow-hidden
                   rounded-[1.5rem] border p-5 text-left backdrop-blur-3xl
-                  bg-gradient-to-br from-white/[0.08] via-white/[0.02] to-black/40
-                  shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.15)]
+                  bg-gradient-to-br from-white/[0.04] via-transparent to-black/30
+                  shadow-[0_15px_40px_-15px_rgba(0,0,0,0.6)]
                   transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]
                   hover:-translate-y-3
                   hover:shadow-[0_30px_80px_-15px_color-mix(in_srgb,var(--accent)_30%,transparent),inset_0_1px_0_0_rgba(255,255,255,0.3)]
@@ -144,7 +144,7 @@ const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
 
       {/* Mark, framed so it sits in something instead of floating in dead space */}
       <span className="relative z-10 flex shrink-0 items-center justify-center sm:flex-1 sm:py-6">
-        <span className="relative flex items-center justify-center rounded-[1.5rem] border border-white/[0.08] bg-black/20 p-4 transition-all duration-700 group-hover:-translate-y-2 group-hover:scale-[1.08] group-hover:bg-white/[0.03] group-hover:border-[var(--accent)]/30 group-hover:shadow-[0_0_30px_color-mix(in_srgb,var(--accent)_20%,transparent)] sm:p-8">
+        <span className="relative flex items-center justify-center rounded-[1.5rem] transition-all duration-700 group-hover:-translate-y-1 group-hover:scale-105 sm:p-4">
           <span className="pointer-events-none absolute inset-0 rounded-[1.25rem] bg-[var(--accent)] opacity-[0.07] blur-2xl transition-opacity duration-700 group-hover:opacity-20" />
           <span className="relative" style={{ filter: 'drop-shadow(0 0 20px color-mix(in srgb, var(--accent) 55%, transparent))' }}>
             <Mark size={card.id === 'elc' ? 118 : 98} />
@@ -155,7 +155,7 @@ const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
       {/* Left-aligned block at the base: the editorial rhythm that stops every
           card reading as the same centred stack. */}
       <span className="relative z-10 flex min-w-0 flex-col">
-        <span className="text-[16px] font-black leading-tight tracking-[0.18em] text-white sm:text-[22px] group-hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.4)] transition-all duration-700">
+        <span className="text-[15px] font-semibold tracking-[0.12em] text-white/90 sm:text-[18px] transition-all duration-700 group-hover:text-white group-hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]">
           {card.title}
         </span>
 
@@ -488,7 +488,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                       }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => launchVRGame(game.pkg)}
-                      className="group relative flex cursor-pointer flex-col items-center gap-6 rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.02] to-black/40 p-8 backdrop-blur-3xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.15)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-4 hover:border-cyan-400/50 hover:bg-white/[0.06] hover:shadow-[0_40px_80px_-15px_color-mix(in_srgb,cyan_30%,transparent),inset_0_1px_0_0_rgba(255,255,255,0.3)] w-[200px] sm:w-[260px] md:w-[300px]"
+                      className="group relative flex cursor-pointer flex-col items-center gap-6 rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/[0.04] via-transparent to-black/30 p-8 backdrop-blur-3xl shadow-[0_15px_40px_-15px_rgba(0,0,0,0.6)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-4 hover:border-cyan-400/50 hover:bg-white/[0.06] hover:shadow-[0_40px_80px_-15px_color-mix(in_srgb,cyan_30%,transparent),inset_0_1px_0_0_rgba(255,255,255,0.3)] w-[200px] sm:w-[260px] md:w-[300px]"
                     >
                       {/* Inner accent glow */}
                       <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-b from-cyan-400/0 to-cyan-400/0 transition-colors duration-700 group-hover:from-cyan-400/10 group-hover:to-transparent" />
@@ -535,6 +535,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
 };
 
 export default UIOverlay;
+
 
 
 
