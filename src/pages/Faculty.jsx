@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Mail } from 'lucide-react';
@@ -78,18 +78,18 @@ const FacultyCard = ({ person, index }) => (
     initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 100 }}
-    className="group relative w-full h-[400px] rounded-[32px] overflow-hidden bg-[rgba(15,20,35,0.7)] border border-[rgba(255,255,255,0.1)] shadow-2xl backdrop-blur-xl"
+    className="group relative w-full h-[400px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-white/[0.05] via-transparent to-black/40 border border-white/[0.04] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.6)] backdrop-blur-3xl hover:-translate-y-2 hover:border-sky-400/40 hover:shadow-[0_30px_60px_-15px_rgba(56,189,248,0.2)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
   >
     {/* Inner Image with Parallax Hover */}
     <div className="absolute inset-0 w-full h-full">
       <img 
         src={person.image} 
         alt={person.name} 
-        className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 opacity-100 saturate-105"
+        className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 saturate-[0.8] contrast-[1.1] brightness-[0.9] opacity-90 transition-all duration-700 group-hover:saturate-100 group-hover:opacity-100"
         onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1000&auto=format&fit=crop'; }} // Fallback
       />
       {/* Soft gradient overlay for text legibility */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-80 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#03040D] via-[#03040D]/60 to-transparent opacity-90 pointer-events-none" />
     </div>
 
     {/* Content Container */}
@@ -98,16 +98,16 @@ const FacultyCard = ({ person, index }) => (
         <h3 className="text-2xl font-black text-white tracking-tight mb-1 drop-shadow-md">
           {person.name}
         </h3>
-        <p className="text-[#14D8FF] text-xs font-bold tracking-[0.2em] uppercase mb-6 drop-shadow-md">
+        <p className="text-sky-400 text-xs font-bold tracking-[0.2em] uppercase mb-6 drop-shadow-md">
           {person.role}
         </p>
 
         {/* Action Button (Email) */}
         <a 
           href={`mailto:${person.email}`}
-          className="flex items-center gap-3 w-fit p-3 pr-5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 hover:border-white/40 hover:scale-105 transition-all duration-300 shadow-xl"
+          className="flex items-center gap-3 w-fit p-3 pr-5 rounded-full bg-white/[0.02] border border-white/10 backdrop-blur-md hover:bg-sky-400/10 hover:border-sky-400/50 hover:scale-105 transition-all duration-500 shadow-xl"
         >
-          <div className="w-8 h-8 rounded-full bg-[#14D8FF] flex items-center justify-center text-[#03040D] shadow-[0_0_10px_#14D8FF]">
+          <div className="w-8 h-8 rounded-full bg-sky-400/10 border-sky-400/30 flex items-center justify-center text-[#03040D] shadow-[0_0_15px_rgba(56,189,248,0.2)] text-sky-400">
             <Mail size={14} />
           </div>
           <span className="text-white text-[11px] font-bold tracking-wider">
@@ -121,7 +121,7 @@ const FacultyCard = ({ person, index }) => (
 
 const Faculty = () => {
   return (
-    <div className="relative w-screen min-h-screen text-white font-sans overflow-x-hidden selection:bg-[#14D8FF]/30">
+    <div className="relative w-screen min-h-screen text-white font-sans overflow-x-hidden selection:bg-sky-400/10 border-sky-400/30/30">
       
       {/* 3D Background */}
       <InteractiveBackground />
@@ -136,7 +136,7 @@ const Faculty = () => {
           
           <div className="mt-2">
             <h1 className="text-5xl md:text-6xl font-light tracking-[0.1em] text-white flex items-center gap-2">
-              ELC<span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#14D8FF] to-[#FF3CF8]">FACULTY</span>
+              ELC<span className="font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-sky-200 to-sky-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.4)]">FACULTY</span>
             </h1>
             <div className="flex items-center gap-3 mt-4">
               <div className="w-10 h-[1px] bg-white/20" />
@@ -162,3 +162,4 @@ const Faculty = () => {
 };
 
 export default Faculty;
+
