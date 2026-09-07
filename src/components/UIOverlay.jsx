@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   motion,
   AnimatePresence,
@@ -22,7 +22,7 @@ const EASE = [0.16, 1, 0.3, 1];
  * These used to be <Html> panels parented to points in the 3D scene, which is
  * why the layout fell apart: their spacing was measured in world units, so it
  * changed with the camera and the viewport and they ran off the edges on
- * anything narrow. They are ordinary DOM now â€” a real responsive grid â€” while
+ * anything narrow. They are ordinary DOM now — a real responsive grid — while
  * their entrance is still driven straight off the scroll value, so they stay
  * locked to the same gesture that dissolves the headset.
  */
@@ -62,7 +62,7 @@ const HUB = [
 
 const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
   // Each card leans into its own slice of the scroll, which is what produces
-  // the stagger â€” and because it is a scrub rather than a timed animation, it
+  // the stagger — and because it is a scrub rather than a timed animation, it
   // runs backwards perfectly when you scroll back up.
   const start = 0.58 + index * 0.06;
   const opacity = useTransform(smoothScroll, [start, start + 0.2], [0, 1]);
@@ -254,7 +254,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
         <div className={`relative flex-1 w-full pointer-events-none ${
           activeView === 'about' ? 'flex flex-col items-center' : 'flex items-center justify-center mt-10'
         }`}>
-          {/* Destination hub â€” scrubbed by scroll, so it is part of the same
+          {/* Destination hub — scrubbed by scroll, so it is part of the same
               motion as the headset dissolving rather than a separate reveal. */}
           {activeView === 'home' && (
             <div className="w-full max-w-[1120px] px-2 sm:px-4">
@@ -323,7 +323,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
 
                     <div className="mt-5 flex flex-col gap-3">
                       {[
-                        ['EXPLORE', 'Discover ELC Projects', 'Explore student-driven projects that combine engineering knowledge and creativity—understanding how they work, the technologies used, and real-world applications.'],
+                        ['EXPLORE', 'Discover ELC Projects', 'Explore student-driven projects that combine engineering knowledge and creativity�understanding how they work, the technologies used, and real-world applications.'],
                         ['EXPERIENCE', 'Step Inside With VR', 'Don''t just see the lab, step inside it. Using Meta Quest VR, enter immersive digital replicas of ELC labs to interact with equipment and processes.'],
                         ['VISION', 'Interactive Learning', 'Creating a connected ecosystem where physical labs, digital platforms, and immersive tech come together to make learning more engaging and accessible.'],
                       ].map(([eyebrow, title, body]) => (
@@ -381,7 +381,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                   <div className="max-w-7xl mx-auto px-6 flex flex-col landscape:md:flex-row items-center justify-between gap-4">
                     {/* Left Section (Branding & Copyright) */}
                     <span className="text-slate-500 text-sm font-light tracking-wide select-none">
-                      Â© 2026 Campus Verse. All rights reserved.
+                      © 2026 Campus Verse. All rights reserved.
                     </span>
 
                     {/* Right Section (Professional Navigation & Team Link) */}
@@ -535,5 +535,6 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
 };
 
 export default UIOverlay;
+
 
 
