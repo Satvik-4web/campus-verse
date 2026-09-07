@@ -85,7 +85,7 @@ const FacultyCard = ({ person, index }) => (
       <img 
         src={person.image} 
         alt={person.name} 
-        className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 saturate-[0.8] contrast-[1.1] brightness-[0.9] opacity-90 transition-all duration-700 group-hover:saturate-100 group-hover:opacity-100"
+        className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 saturate-[0.8] contrast-[1.15] brightness-[0.9] opacity-90 group-hover:saturate-100 group-hover:opacity-100"
         onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1000&auto=format&fit=crop'; }} // Fallback
       />
       {/* Soft gradient overlay for text legibility */}
@@ -107,7 +107,7 @@ const FacultyCard = ({ person, index }) => (
           href={`mailto:${person.email}`}
           className="flex items-center gap-3 w-fit p-3 pr-5 rounded-full bg-white/[0.02] border border-white/10 backdrop-blur-md hover:bg-sky-400/10 hover:border-sky-400/50 hover:scale-105 transition-all duration-500 shadow-xl"
         >
-          <div className="w-8 h-8 rounded-full bg-sky-400/10 border-sky-400/30 flex items-center justify-center text-[#03040D] shadow-[0_0_15px_rgba(56,189,248,0.2)] text-sky-400">
+          <div className="w-8 h-8 rounded-full bg-sky-400/10 border border-sky-400/30 flex items-center justify-center text-[#03040D] shadow-[0_0_15px_rgba(56,189,248,0.2)] text-sky-400">
             <Mail size={14} />
           </div>
           <span className="text-white text-[11px] font-bold tracking-wider">
@@ -121,7 +121,7 @@ const FacultyCard = ({ person, index }) => (
 
 const Faculty = () => {
   return (
-    <div className="relative w-screen min-h-screen text-white font-sans overflow-x-hidden selection:bg-sky-400/10 border-sky-400/30/30">
+    <div className="relative w-screen min-h-screen text-white font-sans overflow-x-hidden selection:bg-sky-400/30">
       
       {/* 3D Background */}
       <InteractiveBackground />
@@ -136,7 +136,7 @@ const Faculty = () => {
           
           <div className="mt-2">
             <h1 className="text-5xl md:text-6xl font-light tracking-[0.1em] text-white flex items-center gap-2">
-              ELC<span className="font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-sky-200 to-sky-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.4)]">FACULTY</span>
+              ELC<span className="font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-sky-200 to-sky-500 drop-shadow-[0_0_15px_rgba(56,189,248,0.4)]">FACULTY</span>
             </h1>
             <div className="flex items-center gap-3 mt-4">
               <div className="w-10 h-[1px] bg-white/20" />
@@ -162,4 +162,5 @@ const Faculty = () => {
 };
 
 export default Faculty;
+
 
