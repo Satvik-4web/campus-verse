@@ -314,7 +314,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                     </span>
 
                     <h2 className="mt-2 bg-gradient-to-b from-white via-sky-200 to-sky-500 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] sm:text-5xl uppercase">
-                      ELC THROUGH CAMPUSVERSE
+                      ABOUT CAMPUS VERSE
                     </h2>
 
                     <p className="mt-4 max-w-xl text-[15px] font-normal leading-relaxed text-sky-100/90 tracking-wide">
@@ -535,6 +535,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
 };
 
 export default UIOverlay;
+
 
 
 
