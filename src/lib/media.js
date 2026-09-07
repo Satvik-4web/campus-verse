@@ -17,8 +17,9 @@ export const MEDIA_BASE = import.meta.env.VITE_MEDIA_BASE_URL || 'https://cnckza
 export const media = (path) => {
     if (!path.endsWith('.mp4')) return path;
     const cleanPath = path.startsWith('/videos/') ? path.slice(8) : path;
-    return `${MEDIA_BASE}/${cleanPath}`;
+    return `${MEDIA_BASE}/${encodeURI(cleanPath)}`;
 };
+
 
 
 
