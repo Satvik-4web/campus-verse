@@ -324,7 +324,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                     <div className="mt-5 flex flex-col gap-3">
                       {[
                         ['EXPLORE', 'Discover ELC Projects', 'Explore student-driven projects that combine engineering knowledge and creativity—understanding how they work, the technologies used, and real-world applications.'],
-                        ['EXPERIENCE', 'Step Inside With VR', 'Don''t just see the lab, step inside it. Using Meta Quest VR, enter immersive digital replicas of ELC labs to interact with equipment and processes.'],
+                        ['EXPERIENCE', 'Step Inside With VR', 'Don\'t just see the lab, step inside it. Using Meta Quest VR, enter immersive digital replicas of ELC labs to interact with equipment and processes.'],
                         ['VISION', 'Interactive Learning', 'Creating a connected ecosystem where physical labs, digital platforms, and immersive tech come together to make learning more engaging and accessible.'],
                       ].map(([eyebrow, title, body]) => (
                         <div key={title} className="group relative overflow-hidden rounded-xl border border-white/[0.05] bg-white/[0.01] p-4 backdrop-blur-md transition-all duration-500 hover:-translate-y-0.5 hover:border-sky-500/30 hover:bg-white/[0.03]">
