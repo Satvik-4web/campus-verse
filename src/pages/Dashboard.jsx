@@ -110,7 +110,7 @@ const DEPARTMENT_VIDEOS = {
   // Department Media (Sub-menus)
   'Electronics & Comm': [
     { title: 'Project 21', url: media('/videos/ece/Copy of 21.mp4') },
-    { title: 'Fasal Kavach', url: media('/videos/ece/Copy of 25_fasal_kavach_video.mp4') },
+    { title: 'Fasal Kavach', url: 'https://cnckzaybkmlcfxnhvrmp.supabase.co/storage/v1/object/public/kiosk-media/ece/Copy%20of%2025_fasal_kavach_video.mp4' },
     { title: 'Project 31', url: media('/videos/ece/Copy of 31_video.mp4') },
     { title: 'Project 32G', url: media('/videos/ece/Copy of 32_g_VIDEO.mp4') },
     { title: 'Project 46', url: media('/videos/ece/Copy of 46_video.mp4') },
@@ -460,6 +460,7 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
 
 
 
