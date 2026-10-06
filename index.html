@@ -5,6 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>new-folder</title>
+    <script>
+      window.onerror = function(msg, url, lineNo, columnNo, error) {
+        document.body.innerHTML = '<div style="background-color:#020510;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;font-family:sans-serif;padding:20px;text-align:center;"><h1 style="color:#00d2ff;letter-spacing:0.2em;margin-bottom:10px;">SYSTEM ERROR</h1><p style="color:rgba(255,255,255,0.7);margin-bottom:10px;">Application failed to start</p><p style="color:#ff4444;font-size:12px;margin-bottom:30px;max-width:80%;word-break:break-all;">' + msg + '</p><button onclick="window.location.reload()" style="padding:12px 24px;background-color:#00d2ff;color:#040a18;font-weight:bold;text-transform:uppercase;letter-spacing:0.2em;border:none;border-radius:99px;cursor:pointer;">RESTART SYSTEM</button></div>';
+        return false;
+      };
+      window.addEventListener('unhandledrejection', function(event) {
+        window.onerror(event.reason, null, null, null, null);
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

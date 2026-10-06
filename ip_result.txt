@@ -1,0 +1,6 @@
+15: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 3000
+    link/ether ce:8d:ff:1e:a9:a3 brd ff:ff:ff:ff:ff:ff
+    inet 172.31.242.30/22 brd 172.31.243.255 scope global wlan0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::cc8d:ffff:fe1e:a9a3/64 scope link 
+       valid_lft forever preferred_lft forever

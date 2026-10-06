@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+﻿import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { motion, AnimatePresence, useMotionValue, useSpring, useMotionValueEvent, useTransform } from 'framer-motion';
 import Scene from '../components/Scene';
@@ -39,7 +39,7 @@ function Home() {
     activeViewRef.current = activeView;
     // The wheel listener below only drives scrollProgress on 'home'. Pin it to
     // the end the instant a DOM panel takes over, so the headset is guaranteed
-    // fully dissolved and docked rather than wherever it happened to settle —
+    // fully dissolved and docked rather than wherever it happened to settle â€”
     // otherwise scrolling inside the panel used to drag it back into frame.
     if (activeView !== 'home') scrollProgress.set(1);
   }, [activeView, scrollProgress]);
@@ -187,7 +187,7 @@ function Home() {
           transformStyle: 'preserve-3d'
         }}
       >
-        {/* Vertical fade instead of a flat 20% tint — the letters sink into the
+        {/* Vertical fade instead of a flat 20% tint â€” the letters sink into the
             background at the base rather than sitting on it as solid blocks. */}
         <h1 className="flex flex-col items-center justify-center font-black tracking-[0.15em] select-none leading-[0.8] text-transparent bg-clip-text bg-gradient-to-b from-sky-400/45 via-sky-500/25 to-sky-600/10 drop-shadow-[0_0_45px_rgba(56,189,248,0.18)] w-full overflow-visible transform landscape:scale-x-100">
           <span className="portrait:text-[22vw] landscape:text-[13vw] pl-[0.15em] text-center w-full whitespace-nowrap">CAMPUS</span>
@@ -197,14 +197,14 @@ function Home() {
 
       {/* 3D Canvas Background */}
       <div className="absolute inset-0 z-10 pointer-events-auto">
-        <Canvas gl={{ alpha: true, antialias: true }} camera={{ position: [0, 0, 8], fov: 45 }}>
+        <Canvas dpr={[1, 1]} gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }} camera={{ position: [0, 0, 8], fov: 45 }}>
           <Scene menuState={menuState} smoothScroll={smoothScroll} isTransitioning={isTransitioning} />
         </Canvas>
       </div>
 
       {/* Ambient backdrop for the About / Explore panels. The panels used to
           sit on a plain radial gradient plus a sparse dot field once the
-          headset had dissolved out of frame — flat next to the glass. This
+          headset had dissolved out of frame â€” flat next to the glass. This
           fades in behind them only: slow drifting colour fields plus a
           canvas starfield, transparent so it composites over the existing
           gradient and 3D canvas rather than covering them. */}
@@ -231,7 +231,7 @@ function Home() {
         )}
       </AnimatePresence>
 
-      {/* Burst flash — screen-blended so it blows out to white at the centre
+      {/* Burst flash â€” screen-blended so it blows out to white at the centre
           without washing the navy at the edges. */}
       <motion.div
         className="absolute inset-0 z-30 pointer-events-none mix-blend-screen bg-[radial-gradient(circle_at_center,rgba(186,230,253,0.75),rgba(56,189,248,0.22)_45%,transparent_70%)]"
@@ -245,3 +245,4 @@ function Home() {
 }
 
 export default Home;
+

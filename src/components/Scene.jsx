@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+﻿import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Edges, Environment, Lightformer } from '@react-three/drei';
 import { EffectComposer, Bloom, Glitch, ChromaticAberration, Vignette } from '@react-three/postprocessing';
@@ -67,7 +67,7 @@ const BurstParticles = ({ smoothScroll }) => {
 
   return (
     <instancedMesh ref={mesh} args={[null, null, count]}>
-      {/* Short mote rather than a warp streak — drifting, not shrapnel */}
+      {/* Short mote rather than a warp streak â€” drifting, not shrapnel */}
       <boxGeometry args={[0.03, 0.03, 0.22]} />
       <meshStandardMaterial 
         color="#38bdf8" 
@@ -179,7 +179,7 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
   const bodyRef = useRef();
   const fadePrepped = useRef(false);
   
-  const { scene } = useGLTF('/meta-quest-3/source/Quest3.glb');
+  const { scene } = useGLTF('./meta-quest-3/source/Quest3.glb');
 
   const centeredModel = useMemo(() => {
     const cloned = scene.clone();
@@ -194,7 +194,7 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
     const p = smoothScroll.get();
 
     // Materials have to opt into transparency before they can be faded, and
-    // flipping it needs a shader recompile — so do it once, not every frame.
+    // flipping it needs a shader recompile â€” so do it once, not every frame.
     if (bodyRef.current && !fadePrepped.current) {
       bodyRef.current.traverse((child) => {
         if (child.material) {
@@ -242,7 +242,7 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
     if (bodyRef.current) {
       // Derived from scroll position, never accumulated. An accumulator only
       // ever counts up, so scrolling back up left the headset parked at
-      // whatever angle it had reached — facing away. As a function of handoff
+      // whatever angle it had reached â€” facing away. As a function of handoff
       // it unwinds exactly the way it wound on.
       bodyRef.current.rotation.y = handoff * Math.PI * 0.9;
 
@@ -314,7 +314,7 @@ const BrightParticles = () => {
     
     const targetRotationX = (state.pointer.y * Math.PI) / 16;
     const targetRotationY = (state.pointer.x * Math.PI) / 16;
-    // Same overshoot hazard as the headset — damp so a long frame can't fling
+    // Same overshoot hazard as the headset â€” damp so a long frame can't fling
     // the whole starfield sideways.
     mesh.current.rotation.x = THREE.MathUtils.damp(mesh.current.rotation.x, targetRotationX, 2, delta);
     mesh.current.rotation.y = THREE.MathUtils.damp(mesh.current.rotation.y, targetRotationY, 2, delta);
@@ -382,7 +382,7 @@ const Scene = ({ smoothScroll, isTransitioning }) => {
 
       {/* Intense Bloom, Glitch & Vignette Post-Processing */}
       <EffectComposer disableNormalPass>
-        <Bloom luminanceThreshold={0.5} mipmapBlur={true} intensity={1.2} />
+        <Bloom luminanceThreshold={0.7} mipmapBlur={false} intensity={0.8} />
         <Vignette eskil={false} offset={0.1} darkness={1.1} />
         {isTransitioning && (
            <>
@@ -409,4 +409,5 @@ const Scene = ({ smoothScroll, isTransitioning }) => {
 };
 
 export default Scene;
-useGLTF.preload('/meta-quest-3/source/Quest3.glb');
+useGLTF.preload('./meta-quest-3/source/Quest3.glb');
+
