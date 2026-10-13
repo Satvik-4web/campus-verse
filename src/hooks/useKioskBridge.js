@@ -10,6 +10,10 @@ export function useKioskBridge() {
   const reconnectTimeoutRef = useRef(null);
 
   const connect = useCallback(() => {
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+      // In secure browser environment (Vercel), skip local kiosk WebSocket to prevent mixed content errors
+      return;
+    }
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
     console.log('[Kiosk Bridge] Attempting to connect...');

@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { motion, AnimatePresence, useMotionValue, useSpring, useMotionValueEvent, useTransform } from 'framer-motion';
 import Scene from '../components/Scene';
@@ -197,14 +197,19 @@ function Home() {
 
       {/* 3D Canvas Background */}
       <div className="absolute inset-0 z-10 pointer-events-auto">
-        <Canvas dpr={[1, 1]} gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }} camera={{ position: [0, 0, 8], fov: 45 }}>
+        <Canvas
+          frameloop={activeView === 'home' ? 'always' : 'never'}
+          dpr={[1, 1.25]}
+          gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }}
+          camera={{ position: [0, 0, 8], fov: 45 }}
+        >
           <Scene menuState={menuState} smoothScroll={smoothScroll} isTransitioning={isTransitioning} />
         </Canvas>
       </div>
 
       {/* Ambient backdrop for the About / Explore panels. The panels used to
           sit on a plain radial gradient plus a sparse dot field once the
-          headset had dissolved out of frame â€” flat next to the glass. This
+          headset had dissolved out of frame — flat next to the glass. This
           fades in behind them only: slow drifting colour fields plus a
           canvas starfield, transparent so it composites over the existing
           gradient and 3D canvas rather than covering them. */}
@@ -223,15 +228,15 @@ function Home() {
             <DriftBlob preset="b" color="#3b82f6" opacity={0.14} blur={170} className="-right-[8%] bottom-[-10%] h-[60vh] w-[55vw]" />
             <Starfield
               layers={[
-                { count: 55, speed: 0.045, radius: [0.5, 1.0], alpha: [0.15, 0.35] },
-                { count: 30, speed: 0.09, radius: [0.9, 1.6], alpha: [0.25, 0.5] },
+                { count: 40, speed: 0.045, radius: [0.5, 1.0], alpha: [0.15, 0.35] },
+                { count: 20, speed: 0.09, radius: [0.9, 1.6], alpha: [0.25, 0.5] },
               ]}
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Burst flash â€” screen-blended so it blows out to white at the centre
+      {/* Burst flash — screen-blended so it blows out to white at the centre
           without washing the navy at the edges. */}
       <motion.div
         className="absolute inset-0 z-30 pointer-events-none mix-blend-screen bg-[radial-gradient(circle_at_center,rgba(186,230,253,0.75),rgba(56,189,248,0.22)_45%,transparent_70%)]"
@@ -239,7 +244,13 @@ function Home() {
       />
 
       {/* 2D UI Overlay */}
-      <UIOverlay menuState={menuState} activeView={activeView} setActiveView={setActiveView} smoothScroll={smoothScroll} />
+      <UIOverlay
+        menuState={menuState}
+        activeView={activeView}
+        setActiveView={setActiveView}
+        smoothScroll={smoothScroll}
+        triggerTransition={triggerTransition}
+      />
     </div>
   );
 }

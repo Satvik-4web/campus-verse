@@ -200,7 +200,7 @@ const KioskScene = () => {
       <directionalLight position={[-6, 4, 2]} intensity={0.5} color="#9ecbff" />
       <pointLight position={[0, 2.5, 3]} intensity={12} color="#38bdf8" distance={12} />
 
-      <Environment resolution={128}>
+      <Environment resolution={128} frames={1}>
         <Lightformer form="rect" intensity={2.2} color="#ffffff" position={[0, 6, 3]} rotation={[Math.PI / 2, 0, 0]} scale={[10, 10, 1]} />
         <Lightformer form="rect" intensity={1.4} color="#9ecbff" position={[-6, 2, 2]} rotation={[0, Math.PI / 2, 0]} scale={[8, 8, 1]} />
       </Environment>
@@ -211,10 +211,10 @@ const KioskScene = () => {
         </group>
       </Float>
 
-      <ContactShadows position={[0, -2.6 * scale, 0]} opacity={0.5} scale={12 * scale} blur={2.6} far={5} color="#000" />
+      <ContactShadows frames={1} position={[0, -2.6 * scale, 0]} opacity={0.5} scale={12 * scale} blur={2.6} far={5} color="#000" />
 
-      <EffectComposer disableNormalPass>
-        <Bloom luminanceThreshold={1} mipmapBlur intensity={1.1} />
+      <EffectComposer disableNormalPass multisampling={0}>
+        <Bloom luminanceThreshold={0.8} mipmapBlur={false} intensity={0.6} />
       </EffectComposer>
 
       <OrbitControls
@@ -231,7 +231,7 @@ const KioskScene = () => {
 
 const KioskModel = () => (
   <div className="h-full w-full">
-    <Canvas camera={{ position: [3.6, 3.6, 6.2], fov: 42 }} gl={{ alpha: true, antialias: true }}>
+    <Canvas dpr={[1, 1.5]} camera={{ position: [3.6, 3.6, 6.2], fov: 42 }} gl={{ alpha: true, antialias: false, powerPreference: "high-performance" }}>
       <KioskScene />
     </Canvas>
   </div>

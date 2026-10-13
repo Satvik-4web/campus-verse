@@ -1,4 +1,4 @@
-﻿import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Edges, Environment, Lightformer } from '@react-three/drei';
 import { EffectComposer, Bloom, Glitch, ChromaticAberration, Vignette } from '@react-three/postprocessing';
@@ -12,7 +12,7 @@ const ramp = (x, a, b) => {
 };
 
 const BurstParticles = ({ smoothScroll }) => {
-  const count = 320;
+  const count = 75;
   const mesh = useRef();
   const dummy = useMemo(() => new THREE.Object3D(), []);
   
@@ -39,6 +39,7 @@ const BurstParticles = ({ smoothScroll }) => {
     // Runs with the shell dissolve rather than after it, so the headset comes
     // apart into motes instead of detonating.
     const burstProgress = ramp(p, 0.54, 0.86);
+    if (burstProgress === 0 && mesh.current.material.opacity === 0) return;
     
     // Ease out explosion
     const easeOut = 1 - Math.pow(1 - burstProgress, 4);
@@ -67,12 +68,11 @@ const BurstParticles = ({ smoothScroll }) => {
 
   return (
     <instancedMesh ref={mesh} args={[null, null, count]}>
-      {/* Short mote rather than a warp streak â€” drifting, not shrapnel */}
       <boxGeometry args={[0.03, 0.03, 0.22]} />
       <meshStandardMaterial 
         color="#38bdf8" 
         emissive="#38bdf8" 
-        emissiveIntensity={4} 
+        emissiveIntensity={3} 
         transparent 
         depthWrite={false} 
         toneMapped={false} 
@@ -106,21 +106,14 @@ const RecursiveModel = ({ node, isWireframe }) => {
           </mesh>
         ) : (
           <mesh geometry={node.geometry}>
-            {/* Was a flat basic material, which gave the silhouette no form at
-                all. A physical shell still occludes the interior edges (so the
-                blueprint look survives) but now catches the rim lights and the
-                environment, so the body reads as a machined object. */}
-            <meshPhysicalMaterial
+            <meshStandardMaterial
               color="#060d1c"
-              roughness={0.44}
+              roughness={0.4}
               metalness={0.6}
-              clearcoat={0.85}
-              clearcoatRoughness={0.22}
               emissive="#0a2540"
-              emissiveIntensity={0.35}
-              envMapIntensity={0.9}
+              emissiveIntensity={0.25}
             />
-            <Edges color="#7dd3fc" threshold={35} />
+            <Edges color="#7dd3fc" threshold={55} />
           </mesh>
         )
       )}
@@ -177,7 +170,8 @@ const BASE_SCALE = 1.12;
 const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
   const groupRef = useRef();
   const bodyRef = useRef();
-  const fadePrepped = useRef(false);
+  const materialsRef = useRef([]);
+  const lastOpacity = useRef(-1);
   
   const { scene } = useGLTF('./meta-quest-3/source/Quest3.glb');
 
@@ -186,6 +180,17 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
     const box = new THREE.Box3().setFromObject(cloned);
     const center = box.getCenter(new THREE.Vector3());
     cloned.position.set(-center.x, -center.y, -center.z);
+    
+    // Collect all child materials once for lightning-fast zero-overhead opacity updates
+    const mats = [];
+    cloned.traverse((child) => {
+      if (child.material) {
+        child.material.transparent = true;
+        mats.push(child.material);
+      }
+    });
+    materialsRef.current = mats;
+    
     return cloned;
   }, [scene]);
 
@@ -193,43 +198,21 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
     if (!smoothScroll) return;
     const p = smoothScroll.get();
 
-    // Materials have to opt into transparency before they can be faded, and
-    // flipping it needs a shader recompile â€” so do it once, not every frame.
-    if (bodyRef.current && !fadePrepped.current) {
-      bodyRef.current.traverse((child) => {
-        if (child.material) {
-          child.material.transparent = true;
-          child.material.needsUpdate = true;
-        }
-      });
-      fadePrepped.current = true;
-    }
-
-    // ONE ramp drives the whole hand-off. Everything below is a phase of it, so
-    // the headset leaving and the panels arriving are the same gesture rather
-    // than two animations that happen to be near each other.
     const handoff = ramp(p, 0.34, 0.78);
     const dissolve = ramp(p, 0.52, 0.82);
 
     if (groupRef.current) {
-      // Pointer parallax, which relaxes to a fixed presentation angle as the
-      // headset stops being the thing you are looking at.
       const maxRot = Math.PI / 8;
       const pointerX = THREE.MathUtils.clamp((state.pointer.y * Math.PI) / 8, -maxRot, maxRot);
       const pointerY = THREE.MathUtils.clamp((state.pointer.x * Math.PI) / 8, -maxRot, maxRot);
-      // damp() instead of lerp(x, y, delta * 5): that factor goes above 1 on any
-      // long frame (tab refocus, GC pause) and lerp then overshoots wildly.
       groupRef.current.rotation.x = THREE.MathUtils.damp(
         groupRef.current.rotation.x, THREE.MathUtils.lerp(pointerX, -0.12, handoff), 5, delta);
       groupRef.current.rotation.y = THREE.MathUtils.damp(
         groupRef.current.rotation.y, THREE.MathUtils.lerp(pointerY, 0.42, handoff), 5, delta);
 
-      // Idle hover, then a lift-and-recede: it withdraws upstage to clear the
-      // frame for the panels instead of shrinking to nothing on the spot.
       const idleFloat = 0.5 + Math.sin(state.clock.elapsedTime * 1.5) * 0.1;
       const restY = THREE.MathUtils.lerp(idleFloat, 0, Math.min(p * 3, 1));
       
-      // Responsive scaling: reduce size slightly on portrait screens (kiosks/mobile)
       const aspect = state.viewport.width / state.viewport.height;
       const scaleMultiplier = aspect < 1 ? 0.48 : 1.0;
       const currentBaseScale = BASE_SCALE * scaleMultiplier;
@@ -240,47 +223,40 @@ const GlowingHeadset = ({ smoothScroll, isTransitioning }) => {
     }
 
     if (bodyRef.current) {
-      // Derived from scroll position, never accumulated. An accumulator only
-      // ever counts up, so scrolling back up left the headset parked at
-      // whatever angle it had reached â€” facing away. As a function of handoff
-      // it unwinds exactly the way it wound on.
       bodyRef.current.rotation.y = handoff * Math.PI * 0.9;
 
-      // Dematerialise: the shell and its edges fade together while the motes
-      // drift off, so there is no moment where it simply vanishes.
-      const opacity = 1 - dissolve;
+      const opacity = Math.max(0, 1 - dissolve);
       bodyRef.current.visible = opacity > 0.002;
-      bodyRef.current.traverse((child) => {
-        if (child.material) {
-          child.material.opacity = opacity;
-          child.material.depthWrite = opacity > 0.9;
+      
+      // Only iterate flat array if opacity changed
+      if (Math.abs(lastOpacity.current - opacity) > 0.005) {
+        lastOpacity.current = opacity;
+        const mats = materialsRef.current;
+        const dw = opacity > 0.9;
+        for (let i = 0; i < mats.length; i++) {
+          mats[i].opacity = opacity;
+          mats[i].depthWrite = dw;
         }
-      });
+      }
     }
   });
 
   return (
     <group ref={groupRef}>
-
-      {/* The shell itself */}
       <group ref={bodyRef}>
         <group scale={20}>
           <RecursiveModel node={centeredModel} isWireframe={isTransitioning} />
         </group>
       </group>
 
-      {/* Motes it comes apart into, plus the ring that marks the hand-off */}
       <BurstParticles smoothScroll={smoothScroll} />
       <ShockwaveRing smoothScroll={smoothScroll} start={0.56} span={0.34} maxScale={9} thickness={0.012} />
     </group>
   );
 };
 
-
-
-
 const BrightParticles = () => {
-  const count = 400;
+  const count = 90;
   const mesh = useRef();
   const dummy = useMemo(() => new THREE.Object3D(), []);
   
@@ -314,8 +290,6 @@ const BrightParticles = () => {
     
     const targetRotationX = (state.pointer.y * Math.PI) / 16;
     const targetRotationY = (state.pointer.x * Math.PI) / 16;
-    // Same overshoot hazard as the headset â€” damp so a long frame can't fling
-    // the whole starfield sideways.
     mesh.current.rotation.x = THREE.MathUtils.damp(mesh.current.rotation.x, targetRotationX, 2, delta);
     mesh.current.rotation.y = THREE.MathUtils.damp(mesh.current.rotation.y, targetRotationY, 2, delta);
   });
@@ -329,7 +303,7 @@ const BrightParticles = () => {
         emissiveIntensity={1.5} 
         transparent 
         opacity={0.6}
-        depthWrite={false}
+        depthWrite={false} 
         envMapIntensity={0}
         blending={THREE.AdditiveBlending}
         toneMapped={false} 
@@ -346,8 +320,6 @@ const Scene = ({ smoothScroll, isTransitioning }) => {
       lightRef.current.intensity = 3 + Math.sin(state.clock.elapsedTime * 2) * 2;
     }
 
-    // Camera leans in through the charge-up and pulls back out for the cards,
-    // so the burst happens at the closest point instead of at a fixed distance.
     if (smoothScroll) {
       const p = Math.min(smoothScroll.get(), 1);
       const targetZ = 8 - Math.sin(p * Math.PI) * 1.15;
@@ -358,31 +330,22 @@ const Scene = ({ smoothScroll, isTransitioning }) => {
   return (
     <>
       <ambientLight intensity={1.2} color="#132a4d" />
-      {/* Back glow that separates the headset from the navy background */}
       <pointLight ref={lightRef} position={[0, 0, -1]} color="#0ea5e9" intensity={5} />
-      {/* Cool key from upper-left + warm-white kicker from the right, so the
-          shell has a readable light direction instead of flat ambient. */}
       <spotLight position={[-6, 5, 4]} angle={0.6} penumbra={1} intensity={120} color="#7dd3fc" />
       <spotLight position={[6, -2, 3]} angle={0.7} penumbra={1} intensity={35} color="#7dd3fc" />
 
-      {/* Reflections without a downloaded HDR: lightformers are rendered into a
-          small cube map once, so metalness/clearcoat have something to mirror. */}
-      <Environment resolution={256}>
+      <Environment resolution={128} frames={1}>
         <Lightformer form="rect" intensity={3} color="#7dd3fc" position={[-5, 2, 2]} rotation={[0, Math.PI / 2, 0]} scale={[8, 8, 1]} />
         <Lightformer form="rect" intensity={1.6} color="#1e6fd9" position={[5, -1, 2]} rotation={[0, -Math.PI / 2, 0]} scale={[8, 8, 1]} />
         <Lightformer form="rect" intensity={0.85} color="#9fd4ff" position={[0, 6, 1]} rotation={[Math.PI / 2, 0, 0]} scale={[10, 10, 1]} />
         <Lightformer form="ring" intensity={4} color="#38bdf8" position={[0, 0, -6]} scale={6} />
       </Environment>
       
-      {/* Background Deep Space Particles */}
       <BrightParticles />
-      
-      {/* The Central Animated Headset Sequence */}
       <GlowingHeadset smoothScroll={smoothScroll} isTransitioning={isTransitioning} />
 
-      {/* Intense Bloom, Glitch & Vignette Post-Processing */}
-      <EffectComposer disableNormalPass>
-        <Bloom luminanceThreshold={0.7} mipmapBlur={false} intensity={0.8} />
+      <EffectComposer disableNormalPass multisampling={0}>
+        <Bloom luminanceThreshold={0.8} mipmapBlur={false} intensity={0.6} />
         <Vignette eskil={false} offset={0.1} darkness={1.1} />
         {isTransitioning && (
            <>

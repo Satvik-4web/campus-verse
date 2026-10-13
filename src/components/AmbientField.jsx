@@ -31,6 +31,7 @@ export const DriftBlob = ({ preset, color, opacity, blur = 130, className = '', 
       background: `radial-gradient(circle, ${color}, transparent 68%)`,
       opacity,
       filter: `blur(${blur}px)`,
+      willChange: 'transform',
       ...PRESETS[preset],
       ...style,
     }}

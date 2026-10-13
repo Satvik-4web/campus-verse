@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   motion,
   AnimatePresence,
@@ -8,7 +8,7 @@ import {
   useSpring,
 } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, Map, Cpu, ArrowRight } from 'lucide-react';
+import { ChevronDown, ChevronUp, Map, Cpu, ArrowRight } from 'lucide-react';
 import { ElcMark, CampusVerseMark, VrGamesMark } from './BrandMarks';
 import KioskModel from './about/KioskModel';
 import { useKioskBridge } from '../hooks/useKioskBridge';
@@ -61,27 +61,10 @@ const HUB = [
 ];
 
 const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
-  // Each card leans into its own slice of the scroll, which is what produces
-  // the stagger â€” and because it is a scrub rather than a timed animation, it
-  // runs backwards perfectly when you scroll back up.
   const start = 0.58 + index * 0.06;
   const opacity = useTransform(smoothScroll, [start, start + 0.2], [0, 1]);
   const y = useTransform(smoothScroll, [start, start + 0.28], [80, 0]);
   const scale = useTransform(smoothScroll, [start, start + 0.28], [0.9, 1]);
-  const blurPx = useTransform(smoothScroll, [start, start + 0.24], [14, 0]);
-  const filter = useMotionTemplate`blur(${blurPx}px)`;
-
-  // Cursor-tracked highlight, so the light source belongs to the room rather
-  // than to the element.
-  const px = useSpring(0, { stiffness: 260, damping: 32 });
-  const py = useSpring(0, { stiffness: 260, damping: 32 });
-  const spotlight = useMotionTemplate`radial-gradient(340px circle at ${px}px ${py}px, color-mix(in srgb, var(--accent) 22%, transparent), transparent 72%)`;
-
-  const track = (e) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    px.set(e.clientX - r.left);
-    py.set(e.clientY - r.top);
-  };
 
   const { Mark } = card;
 
@@ -90,17 +73,16 @@ const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
       type="button"
       onClick={onSelect}
       whileTap={{ scale: 0.98 }}
-      onMouseMove={track}
-      style={{ opacity, y, scale, filter, '--accent': card.accent, pointerEvents: interactive ? 'auto' : 'none' }}
+      style={{ opacity, y, scale, '--accent': card.accent, pointerEvents: interactive ? 'auto' : 'none' }}
       className={`group relative flex h-[104px] w-full flex-row items-center gap-5 overflow-hidden
-                  rounded-[1.5rem] border p-5 text-left backdrop-blur-3xl
-                  bg-gradient-to-br from-white/[0.04] via-transparent to-black/30
+                  rounded-[1.5rem] border p-5 text-left backdrop-blur-md
+                  bg-gradient-to-br from-white/[0.05] via-transparent to-black/40
                   shadow-[0_15px_40px_-15px_rgba(0,0,0,0.6)]
-                  transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]
-                  hover:-translate-y-3
-                  hover:shadow-[0_30px_80px_-15px_color-mix(in_srgb,var(--accent)_30%,transparent),inset_0_1px_0_0_rgba(255,255,255,0.3)]
+                  transition-all duration-500 ease-out
+                  hover:-translate-y-2
+                  hover:shadow-[0_20px_50px_-15px_color-mix(in_srgb,var(--accent)_30%,transparent)]
                   sm:h-[380px] sm:flex-col sm:items-stretch sm:gap-0 sm:rounded-[2rem] sm:p-8
-                  ${card.featured ? 'border-sky-400/30 bg-white/[0.04]' : 'border-white/10'} hover:border-[var(--accent)]/60`}
+                  ${card.featured ? 'border-sky-400/30 bg-white/[0.05]' : 'border-white/10'} hover:border-[var(--accent)]/60`}
     >
       {/* Engineering dot grid, faded out toward the base */}
       <span
@@ -113,10 +95,9 @@ const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
         }}
       />
 
-      {/* Cursor spotlight */}
-      <motion.span
-        style={{ background: spotlight }}
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      {/* Subtle hover gradient */}
+      <span
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-t from-[var(--accent)]/15 via-transparent to-transparent"
       />
 
       {/* Accent bar along the top of the primary card */}
@@ -181,7 +162,7 @@ const HubCard = ({ card, index, smoothScroll, interactive, onSelect }) => {
   );
 };
 
-const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
+const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, triggerTransition }) => {
   const { isVRLoading, vrError, launchCampusTours, launchVRGame } = useKioskBridge();
   const navigate = useNavigate();
 
@@ -198,7 +179,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
 
   const onHubSelect = (id) => {
     if (id === 'elc') navigate('/about');
-    else if (id === 'campus') setActiveView('about');
+    else if (id === 'campus') navigate('/dashboard');
     else if (id === 'vr') setActiveView('vrgames');
   };
 
@@ -254,7 +235,7 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
         <div className={`relative flex-1 w-full pointer-events-none ${
           activeView === 'about' ? 'flex flex-col items-center' : 'flex items-center justify-center mt-10'
         }`}>
-          {/* Destination hub â€” scrubbed by scroll, so it is part of the same
+          {/* Destination hub — scrubbed by scroll, so it is part of the same
               motion as the headset dissolving rather than a separate reveal. */}
           {activeView === 'home' && (
             <div className="w-full max-w-[1120px] px-2 sm:px-4">
@@ -262,6 +243,16 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                 style={{ opacity: hubLabelOpacity, y: hubLabelY }}
                 className="mb-7 flex flex-col items-center sm:mb-10"
               >
+                {hubReady && (
+                  <button
+                    type="button"
+                    onClick={() => triggerTransition && triggerTransition(-1)}
+                    className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-950/60 px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-sky-300 hover:border-sky-400/80 hover:bg-sky-900/80 hover:text-white transition-all cursor-pointer pointer-events-auto shadow-[0_0_15px_rgba(56,189,248,0.2)]"
+                  >
+                    <ChevronUp size={13} />
+                    Back to 3D View
+                  </button>
+                )}
                 <span className="flex items-center gap-4">
                   <span className="h-px w-10 bg-gradient-to-r from-transparent to-sky-400/50 sm:w-16" />
                   <span className="text-[9px] font-semibold uppercase tracking-[0.34em] text-sky-300/80">
@@ -521,10 +512,14 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll }) => {
                 transition={{ duration: 0.8, ease: EASE }}
                 className="flex flex-col items-center gap-6"
               >
-                <div className="group flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity animate-bounce cursor-default">
-                  <span className="text-[10px] font-semibold tracking-[0.2em] text-white group-hover:text-[#38bdf8] group-hover:drop-shadow-[0_0_8px_rgba(56,189,248,0.5)] transition-all uppercase">Scroll to Enter</span>
+                <button
+                  type="button"
+                  onClick={() => triggerTransition && triggerTransition(1)}
+                  className="group flex flex-col items-center gap-2 opacity-70 hover:opacity-100 transition-opacity animate-bounce cursor-pointer bg-transparent border-0 outline-none"
+                >
+                  <span className="text-[10px] font-semibold tracking-[0.2em] text-white group-hover:text-[#38bdf8] group-hover:drop-shadow-[0_0_8px_rgba(56,189,248,0.5)] transition-all uppercase">Scroll or Tap to Enter</span>
                   <ChevronDown size={16} className="text-white group-hover:text-[#38bdf8] transition-colors" />
-                </div>
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
