@@ -8,7 +8,7 @@ import {
   useSpring,
 } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Map, Cpu, ArrowRight } from 'lucide-react';
+import { ChevronDown, ChevronUp, Map, Cpu, ArrowRight, ArrowLeft } from 'lucide-react';
 import { ElcMark, CampusVerseMark, VrGamesMark } from './BrandMarks';
 import KioskModel from './about/KioskModel';
 import { useKioskBridge } from '../hooks/useKioskBridge';
@@ -178,8 +178,8 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, trigger
   const hubLabelY = useTransform(smoothScroll, [0.5, 0.66], [24, 0]);
 
   const onHubSelect = (id) => {
-    if (id === 'elc') navigate('/about');
-    else if (id === 'campus') navigate('/dashboard');
+    if (id === 'elc') navigate('/dashboard');
+    else if (id === 'campus') setActiveView('about');
     else if (id === 'vr') setActiveView('vrgames');
   };
 
@@ -292,8 +292,19 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, trigger
               >
                 {/* Two columns: the pitch on the left, the physical kiosk on the
                     right. It was two generic bento boxes stacked over a button,
-                    which said little and showed nothing. */}
-                <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 landscape:grid-cols-[1fr_0.85fr] landscape:gap-12 mt-8 lg:mt-12">
+                {/* Back button */}
+                <div className="w-full max-w-6xl mt-4 sm:mt-6 flex items-center justify-start">
+                  <button
+                    type="button"
+                    onClick={() => setActiveView('home')}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-white/70 backdrop-blur-xl transition-all hover:border-sky-400/40 hover:text-white cursor-pointer"
+                  >
+                    <ArrowLeft size={14} />
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Back to Destinations</span>
+                  </button>
+                </div>
+
+                <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 landscape:grid-cols-[1fr_0.85fr] landscape:gap-12 mt-4 sm:mt-6">
 
                   {/* Copy */}
                   <div className="flex flex-col gap-4 sm:gap-5">
@@ -404,6 +415,14 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, trigger
                 }}
                 className="absolute inset-0 flex flex-col items-center justify-center gap-6 pointer-events-auto landscape:md:flex-row landscape:md:gap-10"
               >
+                <button
+                  type="button"
+                  onClick={() => setActiveView('about')}
+                  className="absolute top-6 left-6 sm:top-10 sm:left-10 z-30 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-white/70 backdrop-blur-xl transition-all hover:border-sky-400/40 hover:text-white cursor-pointer"
+                >
+                  <ArrowLeft size={14} />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Back to Campus Verse</span>
+                </button>
                 {[
                   { key: 'tours', Icon: Map, top: 'CAMPUS', bottom: 'TOURS' },
                   { key: 'labs', Icon: Cpu, top: 'LAB', bottom: 'SIMULATORS' },
@@ -446,6 +465,14 @@ const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, trigger
                 }}
                 className="absolute inset-0 flex flex-col items-center justify-center pointer-events-auto mt-16 sm:mt-0"
               >
+                <button
+                  type="button"
+                  onClick={() => setActiveView('home')}
+                  className="absolute top-6 left-6 sm:top-10 sm:left-10 z-30 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-white/70 backdrop-blur-xl transition-all hover:border-cyan-400/40 hover:text-white cursor-pointer"
+                >
+                  <ArrowLeft size={14} />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Back to Destinations</span>
+                </button>
                 <div className="mb-10 flex flex-col items-center">
                   <span className="flex items-center gap-4">
                     <span className="h-px w-10 bg-gradient-to-r from-transparent to-cyan-400/50 sm:w-16" />

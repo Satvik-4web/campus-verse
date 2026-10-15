@@ -287,10 +287,10 @@ const Dashboard = () => {
       <header className="relative z-10 mx-auto w-full max-w-[1400px] px-6 pb-8 pt-8 sm:px-10">
         <div className="flex items-center justify-between gap-6">
           <div className="flex items-center gap-5">
-            <Link to="/about" className="group inline-flex items-center gap-2 text-white/45 transition-colors hover:text-white">
+            <button onClick={() => navigate(-1)} type="button" className="group inline-flex items-center gap-2 text-white/45 transition-colors hover:text-white cursor-pointer bg-transparent border-0 outline-none">
               <ArrowLeft size={15} className="transition-transform group-hover:-translate-x-1" />
               <span className="hidden text-[10px] font-bold uppercase tracking-[0.2em] sm:inline">Back</span>
-            </Link>
+            </button>
             <div className="h-8 w-px bg-white/10" />
             <div>
               <h1 className="text-lg font-light tracking-[0.14em] text-white sm:text-xl">
@@ -459,6 +459,8 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
 
 
 
