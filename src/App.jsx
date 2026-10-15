@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import About from './pages/About';
-import Dashboard from './pages/Dashboard';
-import Faculty from './pages/Faculty';
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './app/ErrorBoundary';
+import LoadingScreen from './shared/components/LoadingScreen';
+
+// Lazy-loaded routes for code splitting
+const Home = lazy(() => import('./features/landing/LandingPage'));
+const About = lazy(() => import('./features/about/AboutPage'));
+const Dashboard = lazy(() => import('./features/dashboard/DashboardPage'));
+const Faculty = lazy(() => import('./features/faculty/FacultyPage'));
 
 function App() {
   return (
     <HashRouter>
       <ErrorBoundary>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/faculty" element={<Faculty />} />
-        </Routes>
+        <Suspense fallback={<LoadingScreen message="LOADING CAMPUS VERSE..." />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/faculty" element={<Faculty />} />
+          </Routes>
+        </Suspense>
       </ErrorBoundary>
     </HashRouter>
   );

@@ -14,17 +14,7 @@ import { drawFront, drawLeft, drawRight, makePanelTexture } from './panelArt';
  */
 
 // Names printed on the left panel. Kept from the existing model — the
-// reference photo is too low-resolution to re-read them reliably.
-const MINDS = [
-  'Rehajpreet Kaur',
-  'Sachi',
-  'Diya Duneja',
-  'Chirag Sood',
-  'Harkaranvir Singh',
-  'Vaibhav Jain',
-  'Satvik Ganda',
-  'Rhythmpreet Singh',
-];
+import { CREATOR_MINDS as MINDS } from '../../data/credits';
 
 // Cabinet
 const BODY_W = 2.3;

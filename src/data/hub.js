@@ -1,0 +1,33 @@
+export const HUB_ITEMS = [
+  {
+    id: 'elc',
+    title: 'E L C',
+    caption: 'Experiential Learning Centre',
+    meta: 'Home of the initiative',
+    status: 'Open',
+    cta: 'Discover',
+    accent: '#3b82f6',
+    markKey: 'elc',
+  },
+  {
+    id: 'campus',
+    title: 'CAMPUS VERSE',
+    caption: 'Explore. Experience. Discover.',
+    meta: 'Walk the digital twin',
+    status: 'Live',
+    cta: 'Enter',
+    accent: '#38bdf8',
+    featured: true,
+    markKey: 'campus',
+  },
+  {
+    id: 'vr',
+    title: 'VR GAMES',
+    caption: 'Immersive Arcade',
+    meta: 'Built for headsets',
+    status: 'Live',
+    cta: 'Select Game',
+    accent: '#67e8f9',
+    markKey: 'vr',
+  },
+];
