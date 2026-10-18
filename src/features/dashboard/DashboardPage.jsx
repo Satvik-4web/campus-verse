@@ -72,9 +72,9 @@ export const DashboardPage = () => {
             <div className="h-8 w-px bg-white/10" />
             <div>
               <h1 className="text-lg font-light tracking-[0.14em] text-white sm:text-xl">
-                ELC<span className="bg-gradient-to-r from-blue-400 to-sky-400 bg-clip-text font-black text-transparent">PROJECTS</span>
+                CAMPUS<span className="bg-gradient-to-r from-sky-300 to-blue-500 bg-clip-text font-black text-transparent">VERSE</span>
               </h1>
-              <p className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.32em] text-blue-300/60">Experiential Learning Centre • Showcase</p>
+              <p className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.32em] text-white/35">Spatial kiosk array</p>
             </div>
           </div>
 

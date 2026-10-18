@@ -6,7 +6,6 @@ import { useKioskBridge } from '../../shared/hooks/useKioskBridge';
 import VRLaunchOverlay from '../vr-games/components/VRLaunchOverlay';
 import DestinationHub from './components/DestinationHub';
 import AboutDrawer from './components/AboutDrawer';
-import AboutElcDrawer from './components/AboutElcDrawer';
 import ExploreDrawer from './components/ExploreDrawer';
 import VrGamesGrid from '../vr-games/components/VrGamesGrid';
 
@@ -23,31 +22,29 @@ export const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, 
   });
 
   const onHubSelect = (id) => {
-    if (id === 'elc') setActiveView('about-elc');
+    if (id === 'elc') navigate('/dashboard');
     else if (id === 'campus') setActiveView('about');
     else if (id === 'vr') setActiveView('vrgames');
   };
-
-  const isAboutView = activeView === 'about' || activeView === 'about-elc';
 
   return (
     <>
       <VRLaunchOverlay isVisible={isVRLoading} vrError={vrError} />
       <div 
         className={`absolute inset-0 z-20 flex flex-col font-sans tracking-wide select-none [-webkit-tap-highlight-color:transparent] ${
-          isAboutView 
+          activeView === 'about' 
             ? 'pointer-events-auto overflow-y-auto p-6 sm:p-10 scroll-smooth touch-pan-y [&::-webkit-scrollbar]:hidden' 
             : 'pointer-events-none justify-between p-6 sm:p-10'
         }`}
         style={{ scrollbarWidth: 'none' }}
       >
-        {/* Header / Logos & Quick Nav */}
-        <header className="flex justify-between items-center pointer-events-auto w-full gap-4">
+        {/* Header / Logos */}
+        <header className="flex justify-between items-start pointer-events-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: EASE }}
-            className="flex flex-col gap-1 group cursor-pointer shrink-0"
+            className="flex flex-col gap-1 group cursor-pointer"
             onClick={() => setActiveView('home')}
           >
             <div className="flex items-center transition-transform duration-300 ease-out group-hover:scale-105 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
@@ -59,62 +56,11 @@ export const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, 
             </div>
           </motion.div>
 
-          {/* Quick Nav Bar */}
-          <nav className="hidden lg:flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] p-1.5 backdrop-blur-2xl">
-            <button
-              onClick={() => setActiveView('about-elc')}
-              type="button"
-              className={`rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] transition-all cursor-pointer ${
-                activeView === 'about-elc'
-                  ? 'bg-blue-600 text-white shadow-[0_0_15px_rgba(59,130,246,0.6)]'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              About ELC
-            </button>
-            <button
-              onClick={() => setActiveView('about')}
-              type="button"
-              className={`rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] transition-all cursor-pointer ${
-                activeView === 'about'
-                  ? 'bg-sky-500 text-white shadow-[0_0_15px_rgba(56,189,248,0.6)]'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              Campus Verse
-            </button>
-            <button
-              onClick={() => navigate('/dashboard')}
-              type="button"
-              className="rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-300 hover:text-white hover:bg-white/5 transition-all cursor-pointer"
-            >
-              Projects
-            </button>
-            <button
-              onClick={() => setActiveView('vrgames')}
-              type="button"
-              className={`rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] transition-all cursor-pointer ${
-                activeView === 'vrgames'
-                  ? 'bg-cyan-500 text-slate-950 shadow-[0_0_15px_rgba(103,232,249,0.6)]'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              VR Arcade
-            </button>
-            <button
-              onClick={() => navigate('/faculty')}
-              type="button"
-              className="rounded-full px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-300 hover:text-white hover:bg-white/5 transition-all cursor-pointer"
-            >
-              Faculty
-            </button>
-          </nav>
-
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.1, ease: EASE }}
-            className="flex items-center gap-4 shrink-0"
+            className="flex items-center gap-4"
           >
             <div className="flex flex-col items-end text-right">
               <h2 className="text-sm font-medium tracking-[0.3em] text-white">
@@ -130,7 +76,7 @@ export const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, 
 
         {/* Main Content Area */}
         <div className={`relative flex-1 w-full pointer-events-none ${
-          isAboutView ? 'flex flex-col items-center' : 'flex items-center justify-center mt-10'
+          activeView === 'about' ? 'flex flex-col items-center' : 'flex items-center justify-center mt-10'
         }`}>
           {activeView === 'home' && (
             <DestinationHub
@@ -142,19 +88,10 @@ export const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, 
           )}
 
           <AnimatePresence mode="wait">
-            {activeView === 'about-elc' && (
-              <AboutElcDrawer
-                onBack={() => setActiveView('home')}
-                onExploreProjects={() => navigate('/dashboard')}
-                onOpenFullPage={() => navigate('/about-elc')}
-              />
-            )}
-
             {activeView === 'about' && (
               <AboutDrawer
                 onBack={() => setActiveView('home')}
                 onExplore={() => setActiveView('explore')}
-                onOpenElc={() => setActiveView('about-elc')}
               />
             )}
 
@@ -163,6 +100,7 @@ export const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, 
                 onBack={() => setActiveView('about')}
                 onLaunchTours={launchCampusTours}
                 onLaunchLabs={() => {
+                  // Stub for Prompt 9 (Lab Simulators)
                   console.log('Lab Simulators selected');
                 }}
               />
