@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import KioskModel from '../../../components/about/KioskModel';
 import TeamModal, { TeamCardsGrid } from '../../../components/TeamModal';
@@ -30,16 +31,24 @@ export const AboutDrawer = ({ onBack, onExplore }) => {
         transition={{ duration: 0.6, ease: EASE }}
         className="relative flex flex-col items-center pointer-events-auto w-full px-4"
       >
-        {/* Back button */}
-        <div className="w-full max-w-6xl mt-4 sm:mt-6 flex items-center justify-start">
+        {/* Back button & ELC link */}
+        <div className="w-full max-w-6xl mt-4 sm:mt-6 flex items-center justify-between gap-4">
           <button
             type="button"
             onClick={onBack}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-white/70 backdrop-blur-xl transition-all hover:border-sky-400/40 hover:text-white cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-white/70 backdrop-blur-xl transition-all hover:border-sky-400/40 hover:text-white cursor-pointer active:scale-95"
           >
             <ArrowLeft size={14} />
             <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Back to Destinations</span>
           </button>
+
+          <Link
+            to="/about-elc"
+            className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-950/60 px-4 py-2 text-blue-300 backdrop-blur-xl transition-all hover:border-blue-400 hover:text-white cursor-pointer active:scale-95 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
+          >
+            <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">About ELC Initiative</span>
+            <ArrowRight size={14} />
+          </Link>
         </div>
 
         <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 landscape:grid-cols-[1fr_0.85fr] landscape:gap-12 mt-4 sm:mt-6">
@@ -154,6 +163,12 @@ export const AboutDrawer = ({ onBack, onExplore }) => {
               >
                 About Team of Campus Verse
               </motion.button>
+              <Link 
+                to="/about-elc"
+                className="py-2 px-1 transition-colors duration-300 hover:text-blue-400 text-blue-300/90 font-semibold cursor-pointer"
+              >
+                About ELC & Labs
+              </Link>
             </div>
           </div>
         </footer>

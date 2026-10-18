@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Info } from 'lucide-react';
 import InteractiveBackground from '../../components/dashboard/InteractiveBackground';
 import BentoCard from './components/BentoCard';
 import MediaStageModal from './components/MediaStageModal';
@@ -13,6 +13,7 @@ const isImage = (url) => /\.(jpe?g|gif|png|webp)$/i.test(url);
 
 const metaFor = (card) => {
   if (card.title === 'Faculty') return 'Directory';
+  if (card.title === 'About ELC') return 'Overview';
   const list = DEPARTMENT_VIDEOS[card.title];
   if (!list) return `${DEPARTMENTS_DATA.length} depts`;
   const images = list.filter((m) => isImage(m.url)).length;
@@ -33,6 +34,10 @@ export const DashboardPage = () => {
   const handleCardClick = (card) => {
     if (card.title === 'Faculty') {
       navigate('/faculty');
+      return;
+    }
+    if (card.title === 'About ELC') {
+      navigate('/about-elc');
       return;
     }
     setSelectedCard(card);
@@ -73,7 +78,16 @@ export const DashboardPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3 sm:gap-5">
+            <button
+              onClick={() => navigate('/about-elc')}
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-950/40 px-3.5 py-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-blue-300 backdrop-blur-xl transition-all hover:border-blue-400 hover:text-white cursor-pointer active:scale-95"
+            >
+              <Info size={12} className="text-blue-400" />
+              <span>About ELC</span>
+            </button>
+
             <div className="hidden items-center gap-4 md:flex">
               {[[CARDS_DATA.length, 'Collections'], [TOTAL_MEDIA, 'Media'], [DEPARTMENTS_DATA.length, 'Depts']].map(([n, label]) => (
                 <div key={label} className="text-right">
@@ -94,7 +108,7 @@ export const DashboardPage = () => {
 
       {/* Main Grid */}
       <main className="relative z-10 mx-auto w-full max-w-[1400px] px-6 pb-28 pt-4 perspective-[2200px] sm:px-10">
-        <div className="grid grid-cols-2 gap-5 lg:grid-cols-3 xl:gap-6">
+        <div className="grid grid-cols-2 gap-5 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6">
           {CARDS_DATA.map((card, i) => (
             <motion.div
               key={card.id}
@@ -103,7 +117,6 @@ export const DashboardPage = () => {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.65, delay: Math.min(i, 4) * 0.07, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformStyle: 'preserve-3d' }}
-              className={i === 6 ? 'lg:col-start-2' : ''}
             >
               <BentoCard card={card} meta={metaFor(card)} onClick={handleCardClick} />
             </motion.div>
