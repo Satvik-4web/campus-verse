@@ -46,12 +46,12 @@ export const AboutElcPage = () => {
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 sm:gap-6">
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/')}
               type="button"
               className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-white/70 backdrop-blur-xl transition-all hover:border-blue-400/40 hover:bg-white/10 hover:text-white cursor-pointer active:scale-95"
             >
               <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Back</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Return to Hub</span>
             </button>
 
             <div className="h-6 w-px bg-white/10 hidden sm:block" />
@@ -60,13 +60,19 @@ export const AboutElcPage = () => {
             <nav className="hidden sm:flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-white/40">
               <Link to="/" className="hover:text-sky-300 transition-colors">Campus Verse</Link>
               <span className="text-white/20">/</span>
-              <Link to="/dashboard" className="hover:text-blue-300 transition-colors">Dashboard</Link>
-              <span className="text-white/20">/</span>
               <span className="text-blue-400 font-semibold">About ELC</span>
             </nav>
           </div>
 
           <div className="flex items-center gap-3">
+            <Link
+              to="/dashboard"
+              className="inline-flex items-center gap-2 rounded-full border border-blue-400/40 bg-blue-600/30 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-xl transition-all hover:bg-blue-600/50 hover:border-blue-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] active:scale-95 cursor-pointer"
+            >
+              <span>Projects Dashboard</span>
+              <ArrowRight size={13} />
+            </Link>
+
             <Link
               to="/faculty"
               className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70 backdrop-blur-xl transition-all hover:border-blue-400/40 hover:text-white"
@@ -75,7 +81,7 @@ export const AboutElcPage = () => {
               <span>Faculty Directory</span>
             </Link>
 
-            <div className="flex items-center gap-2.5 rounded-full border border-blue-500/20 bg-blue-950/40 px-4 py-2 backdrop-blur-xl">
+            <div className="hidden sm:flex items-center gap-2.5 rounded-full border border-blue-500/20 bg-blue-950/40 px-4 py-2 backdrop-blur-xl">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400 shadow-[0_0_10px_#3b82f6]" />
               <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-blue-200">ELC Core Node</span>
             </div>
@@ -127,16 +133,17 @@ export const AboutElcPage = () => {
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
                   to="/dashboard"
-                  className="inline-flex items-center gap-2 rounded-xl border border-blue-500/50 bg-blue-600/20 px-5 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[0_0_25px_rgba(59,130,246,0.4)] backdrop-blur-xl transition-all hover:bg-blue-600/30 hover:border-blue-400"
+                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-xl border border-blue-400 bg-blue-600 px-7 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-[0_0_30px_rgba(59,130,246,0.6)] backdrop-blur-xl transition-all hover:bg-blue-500 hover:shadow-[0_0_45px_rgba(59,130,246,0.9)] active:scale-95 cursor-pointer"
                 >
-                  <span>Explore Student Projects</span>
-                  <ArrowRight size={14} />
+                  <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
+                  <span>Proceed to Projects Dashboard</span>
+                  <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
                 </Link>
                 <Link
                   to="/faculty"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white/80 backdrop-blur-xl transition-all hover:bg-white/10 hover:text-white"
+                  className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white/80 backdrop-blur-xl transition-all hover:border-blue-400/40 hover:bg-white/10 hover:text-white cursor-pointer active:scale-95"
                 >
-                  <Users size={14} />
+                  <Users size={14} className="text-blue-400" />
                   <span>Meet Faculty Mentors</span>
                 </Link>
               </div>
