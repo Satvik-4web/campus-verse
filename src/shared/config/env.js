@@ -40,17 +40,10 @@ export const runtime = (() => {
     window.location.hostname === '127.0.0.1'
   );
 
-  const defaultSupabaseUrl = 'https://cnckzaybkmlcfxnhvrmp.supabase.co';
-  const defaultSupabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNuY2t6YXlia21sY2Z4bmh2cm1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg3MjQ0NDYsImV4cCI6MjEwNDMwMDQ0Nn0.K5_AlEAFqUFQDQJVHd3DSAuffUxVxeMTQDR8wu0PoYY';
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || defaultSupabaseUrl;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || defaultSupabaseKey;
-
-  const mediaBaseUrl = import.meta.env.VITE_MEDIA_BASE_URL || (
-    isBrowser && (window.location.hostname.includes('vercel.app') || isWeb)
-      ? `${supabaseUrl}/storage/v1/object/public/kiosk-media`
-      : ''
-  );
+  const mediaBaseUrl = import.meta.env.VITE_MEDIA_BASE_URL || '';
 
   const mediaMode = mediaBaseUrl ? 'cdn' : 'local';
 
