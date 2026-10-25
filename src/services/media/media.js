@@ -27,5 +27,7 @@ export const media = (path) => {
   // Default: Direct static deployment (Vercel, local dev, Electron Kiosk)
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   const parts = cleanPath.split('/').map(segment => encodeURIComponent(segment));
-  return './' + parts.join('/');
+  const isBrowser = typeof window !== 'undefined' && window.location && window.location.protocol.startsWith('http');
+  const prefix = isBrowser ? '/' : './';
+  return prefix + parts.join('/');
 };
