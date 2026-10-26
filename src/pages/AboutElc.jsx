@@ -1,2 +1,2 @@
-export { default } from '../features/about/AboutPage';
-export * from '../features/about/AboutPage';
+import AboutElcPage from '../features/about-elc/AboutElcPage';
+export default AboutElcPage;
