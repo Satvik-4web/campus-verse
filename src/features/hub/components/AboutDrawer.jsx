@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import KioskModel from '../../../components/about/KioskModel';
 import TeamModal, { TeamCardsGrid } from '../../../components/TeamModal';
@@ -31,8 +30,8 @@ export const AboutDrawer = ({ onBack, onExplore }) => {
         transition={{ duration: 0.6, ease: EASE }}
         className="relative flex flex-col items-center pointer-events-auto w-full px-4"
       >
-        {/* Back button & ELC link */}
-        <div className="w-full max-w-6xl mt-4 sm:mt-6 flex items-center justify-between gap-4">
+        {/* Back button */}
+        <div className="w-full max-w-6xl mt-4 sm:mt-6 flex items-center justify-start">
           <button
             type="button"
             onClick={onBack}
@@ -41,14 +40,6 @@ export const AboutDrawer = ({ onBack, onExplore }) => {
             <ArrowLeft size={14} />
             <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Back to Destinations</span>
           </button>
-
-          <Link
-            to="/about-elc"
-            className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-950/60 px-4 py-2 text-blue-300 backdrop-blur-xl transition-all hover:border-blue-400 hover:text-white cursor-pointer active:scale-95 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
-          >
-            <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">About ELC Initiative</span>
-            <ArrowRight size={14} />
-          </Link>
         </div>
 
         <div className="mb-auto grid w-full max-w-6xl grid-cols-1 items-start gap-8 landscape:grid-cols-[1fr_0.85fr] landscape:gap-12 mt-4 sm:mt-6">
@@ -61,7 +52,7 @@ export const AboutDrawer = ({ onBack, onExplore }) => {
               </span>
             </span>
 
-            <h2 className="mt-1 bg-gradient-to-b from-white via-sky-200 to-sky-500 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent drop-shadow-[0_0_15px_rgba(56,189,248,0.4)] sm:text-5xl uppercase">
+            <h2 className="mt-1 bg-gradient-to-b from-white via-sky-200 to-sky-500 bg-clip-text text-4xl font-black leading-tight tracking-tighter text-transparent drop-shadow-[0_0_15px_rgba(56_189_248,0.4)] sm:text-5xl uppercase">
               ABOUT CAMPUS VERSE
             </h2>
 
@@ -163,12 +154,6 @@ export const AboutDrawer = ({ onBack, onExplore }) => {
               >
                 About Team of Campus Verse
               </motion.button>
-              <Link 
-                to="/about-elc"
-                className="py-2 px-1 transition-colors duration-300 hover:text-blue-400 text-blue-300/90 font-semibold cursor-pointer"
-              >
-                About ELC & Labs
-              </Link>
             </div>
           </div>
         </footer>

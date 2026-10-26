@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import KioskModel from '../../components/about/KioskModel';
 import { TeamCardsGrid } from '../../components/TeamModal';
@@ -75,13 +75,22 @@ export const AboutPage = () => (
     <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#040a18] via-transparent to-[#040a18]" />
 
     <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-6 py-10 sm:px-8 sm:py-12">
-      <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, ease: EASE }}>
+      {/* Top Bar with Hub and Projects Navigation */}
+      <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, ease: EASE }} className="flex items-center justify-between gap-4">
         <Link
           to="/"
           className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-white/50 backdrop-blur-xl transition-colors hover:border-sky-400/40 hover:text-white"
         >
           <ArrowLeft size={14} className="transition-transform duration-500 group-hover:-translate-x-0.5" />
           <span className="text-[10px] font-semibold uppercase tracking-[0.24em]">Back to hub</span>
+        </Link>
+
+        <Link
+          to="/dashboard"
+          className="group inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-950/60 px-4 py-2 text-sky-300 backdrop-blur-xl transition-all hover:border-sky-400 hover:text-white hover:shadow-[0_0_15px_rgba(56,189,248,0.3)]"
+        >
+          <span className="text-[10px] font-semibold uppercase tracking-[0.24em]">Projects Dashboard</span>
+          <ArrowRight size={14} className="transition-transform duration-500 group-hover:translate-x-0.5" />
         </Link>
       </motion.div>
 

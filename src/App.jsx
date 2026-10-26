@@ -6,7 +6,6 @@ import LoadingScreen from './shared/components/LoadingScreen';
 // Lazy-loaded routes for code splitting
 const Home = lazy(() => import('./features/landing/LandingPage'));
 const About = lazy(() => import('./features/about/AboutPage'));
-const AboutElc = lazy(() => import('./features/about-elc/AboutElcPage'));
 const Dashboard = lazy(() => import('./features/dashboard/DashboardPage'));
 const Faculty = lazy(() => import('./features/faculty/FacultyPage'));
 
@@ -18,8 +17,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/about-elc" element={<AboutElc />} />
-            <Route path="/elc" element={<AboutElc />} />
+            <Route path="/about-elc" element={<About />} />
+            <Route path="/elc" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/faculty" element={<Faculty />} />
           </Routes>

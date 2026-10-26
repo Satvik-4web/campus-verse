@@ -10,5 +10,4 @@ export const CARDS_DATA = [
   { id: 5, title: 'Resources', subtitle: 'Equipment & facilities', image: './resources_thumb.png', color: BLUE, imagePosition: 'object-center' },
   { id: 6, title: 'Campus Tours', subtitle: 'Explore campus', image: './campus_tour_thumb.png', color: SKY, imagePosition: 'object-center' },
   { id: 7, title: 'Faculty', subtitle: 'Our team', image: './faculty_thumb.jpg', color: CYAN, imagePosition: 'object-center' },
-  { id: 8, title: 'About ELC', subtitle: 'Vision & Mission', image: './elc-logo.png', color: BLUE, imagePosition: 'object-contain p-3' },
 ];

@@ -22,7 +22,7 @@ export const UIOverlay = ({ menuState, activeView, setActiveView, smoothScroll, 
   });
 
   const onHubSelect = (id) => {
-    if (id === 'elc') navigate('/about-elc');
+    if (id === 'elc') navigate('/dashboard');
     else if (id === 'campus') setActiveView('about');
     else if (id === 'vr') setActiveView('vrgames');
   };
